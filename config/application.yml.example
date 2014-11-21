@@ -1,3 +1,4 @@
 devise_email: "devise@localhost"
 devise_secret: "c66ad74753a0eee6ec5eb0a79409e84445a95afa2fe07d5e9d1b658371d7f8592956ce6abbcdecf8b3c29f466b3d563b39ab317b72eeaac6b869b110d8141f37"
 admin_email: "macbury@gmail.com"
+host: "localhost:3000"
