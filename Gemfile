@@ -42,6 +42,7 @@ end
 
 group :development, :test do
   gem "guard"
+  gem "database_cleaner"
   gem "guard-rspec"
   gem "pry"
   gem "rspec-rails"
