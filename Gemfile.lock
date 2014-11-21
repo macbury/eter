@@ -183,6 +183,7 @@ GEM
     ref (1.0.5)
     responders (1.1.2)
       railties (>= 3.2, < 4.2)
+    rolify (3.4.1)
     rspec (3.1.0)
       rspec-core (~> 3.1.0)
       rspec-expectations (~> 3.1.0)
@@ -277,6 +278,7 @@ DEPENDENCIES
   pry
   quiet_assets
   rails (= 4.1.8)
+  rolify
   rspec-rails
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)

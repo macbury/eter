@@ -15,8 +15,13 @@ gem 'spring',        group: :development
 gem 'unicorn'
 
 gem "faye", require: false
-gem "devise"
-gem "cancan"
+
+group :auth do
+  gem "rolify"
+  gem "devise"
+  gem "cancan"
+end
+
 gem "figaro"
 gem "haml-rails"
 gem "simple_form"
