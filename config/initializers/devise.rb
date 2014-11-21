@@ -4,13 +4,13 @@ Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
-  # config.secret_key = 'c66ad74753a0eee6ec5eb0a79409e84445a95afa2fe07d5e9d1b658371d7f8592956ce6abbcdecf8b3c29f466b3d563b39ab317b72eeaac6b869b110d8141f37'
+  config.secret_key = Figaro.env.devise_secret
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  config.mailer_sender =Figaro.env.devise_email
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
