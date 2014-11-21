@@ -43,6 +43,7 @@ end
 
 group :development, :test do
   gem "guard"
+  gem "capybara"
   gem "database_cleaner"
   gem "guard-rspec"
   gem "pry"
