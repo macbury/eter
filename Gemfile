@@ -13,6 +13,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 
 gem 'unicorn'
+gem "unicorn-rails"
 
 gem "faye", require: false
 
@@ -23,8 +24,8 @@ group :auth do
 end
 
 gem "figaro"
-gem "haml-rails"
-gem "simple_form"
+gem "slim-rails"
+gem "simple_form", ">= 3.1.0.rc1"
 
 
 group :assets do
