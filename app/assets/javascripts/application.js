@@ -12,5 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require nprogress
 //= require bootstrap-sprockets
+//= require angular
+//= require nprogress-angular
+//= require angular-animate
+//= require angular-resource
 //= require_tree .

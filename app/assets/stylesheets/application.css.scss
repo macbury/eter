@@ -1,5 +1,6 @@
 /*
  *= require_self
+ *= require_tree ./elements/
 */
 
 @import "variables";
@@ -8,3 +9,10 @@
 @import "bootstrap";
 @import "bootswatch";
 @import "utils";
+
+$nprogress-color: #f1f1f1;
+$nprogress-height: 10px;
+$nprogress-zindex: 10100;
+
+@import 'nprogress';
+@import 'nprogress-bootstrap';

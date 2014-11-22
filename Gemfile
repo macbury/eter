@@ -35,6 +35,7 @@ group :assets do
   gem 'font-awesome-sass'
   gem 'haml_coffee_assets'
   gem "quiet_assets"
+  gem 'nprogress-rails'
 end
 
 group :api do
@@ -47,12 +48,16 @@ group :development, :test do
   gem 'poltergeist'
   gem "database_cleaner"
   gem "guard-rspec"
+  gem 'guard-livereload'
+  gem "guard-bundler"
+  gem 'guard-rails'
   gem "pry"
   gem "rspec-rails"
   gem 'factory_girl_rails'
   gem "better_errors"
   gem "binding_of_caller"
   gem 'shoulda-matchers', require: false
+  gem "rack-livereload"
 end
 
 # Use Capistrano for deployment
