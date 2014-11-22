@@ -30,6 +30,7 @@ RSpec.configure do |config|
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::TestHelpers, type: :controller
+  config.include ResponseMacros, type: :controller
   config.extend DeviseMacros,     type: :controller
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
