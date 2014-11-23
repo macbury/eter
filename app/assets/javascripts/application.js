@@ -18,4 +18,5 @@
 //= require nprogress-angular
 //= require angular-animate
 //= require angular-resource
+//= require angular-translate
 //= require_tree .

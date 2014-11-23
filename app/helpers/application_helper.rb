@@ -1,5 +1,7 @@
 module ApplicationHelper
   def render_flashes
-    content_tag "flash-alert", flash.map { |k,v| v }.join(", "), { data: { messages: flash.inject({}) { |out, msg| out[msg[0]] = msg[1]; out }  } }
+    flash.map do |type, message|
+      content_tag "div", message, type: type, "flash" => true
+    end.join("\n").html_safe
   end
 end

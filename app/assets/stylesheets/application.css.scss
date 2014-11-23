@@ -1,6 +1,6 @@
 /*
  *= require_self
- *= require_tree ./elements/
+ *= require_tree ./libs
 */
 
 @import "variables";
@@ -16,3 +16,6 @@ $nprogress-zindex: 10100;
 
 @import 'nprogress';
 @import 'nprogress-bootstrap';
+
+@import "layout/container";
+@import "layout/toolbar";

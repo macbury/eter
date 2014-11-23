@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://rails-assets.org'
 
 gem 'rails', '4.1.8'
 gem 'mysql2'
@@ -36,6 +37,7 @@ group :assets do
   gem 'haml_coffee_assets'
   gem "quiet_assets"
   gem 'nprogress-rails'
+  gem 'rails-assets-angular-translate'
 end
 
 group :api do
@@ -51,7 +53,7 @@ group :development, :test do
   gem 'guard-livereload'
   gem "guard-bundler"
   gem 'guard-rails'
-  gem "pry"
+  gem 'pry-rails'
   gem "rspec-rails"
   gem 'factory_girl_rails'
   gem "better_errors"
