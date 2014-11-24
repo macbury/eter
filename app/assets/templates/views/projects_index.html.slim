@@ -1,0 +1,11 @@
+div ng-controller="DashboardProjectsController as projectsController"
+  .row ng-show="projectsController.isEmpty()"
+    .col-md-12
+      | {{ 'projects.empty' | translate }}
+  .row ng-repeat="rows in projects | partition:4:this"
+    .col-md-3 ng-repeat="project in rows"
+      .panel.panel-primary
+        .panel-heading
+          | {{ project.title }}
+        .panel-body
+          

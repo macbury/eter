@@ -17,7 +17,7 @@ RSpec.describe HomeController, :type => :controller do
     describe "GET index" do
       it "redirect to user dashboard" do
         get :index
-        expect(response).to redirect_to(dashboard_path)
+        expect(response).to be_success
       end
     end
   end

@@ -12,14 +12,15 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require nprogress
 //= require bootstrap-sprockets
 //= require angular
-//= require nprogress-angular
 //= require angular-animate
+//= require angular-route
+//= require angular-loading-bar
 //= require angular-resource
 //= require angular-translate
 //= require_tree ./libs/
 //= require_tree ./modules/
 //= require eter
+//= require routes
 //= require_self

@@ -1,6 +1,4 @@
-var eterApp = angular.module("eterApp", [ "flashMod", "pascalprecht.translate", "senseMod"]);
-
-
+var eterApp = angular.module("eterApp", [ "modFlash", "pascalprecht.translate", "modSense", "ngRoute", "modProject", 'angular-loading-bar']);
 
 eterApp.factory('railsLocalesLoader', function RailsLocalesLoader($http) {
   return function(options) {

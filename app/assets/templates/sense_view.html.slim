@@ -1,17 +1,42 @@
 .sense-view
   .input-view
-    i.fa.fa-bars.sense-icon
-    input type="text" value="{{ test }}" placeholder="add story, search story"
-  .results-view
-    ul
-      li
-        a href="#"
-          i.fa.fa-plus.action-icon
-          | Create story
-      li
-        a href="#" Create project
-      li.divider
-      li
-        a href="#" #101 cannot create story
-      li
-        a href="#" #123 testing
+    i.fa.fa-bars.sense-icon ng-click="senseCtrl.toggleResults()"
+    input type="text" value="" placeholder="add story, search story" ng-focus="senseCtrl.showResults()" ng-blur="senseCtrl.hideResults()"
+  .results-view ng-show="senseCtrl.isShowingResults()"
+    .result-group
+      ul
+        li.loading ng-show="senseCtrl.isLoading()"
+          | {{ "sense.loading" | translate }}
+    .result-group
+      ul
+        li
+          a href="#"
+            i.fa.fa-plus.action-icon
+            b Create story:
+            span Hello world!
+        li
+          a href="#"
+            i.fa.fa-plus.action-icon
+            b Create story:
+            span Hello world!
+        li.divider
+        li
+          a href="#"
+            i.fa.fa-plus.action-icon
+            b Create story:
+            span Hello world!
+        li
+          a href="#"
+            i.fa.fa-plus.action-icon
+            b Create story:
+            span Hello world!
+    .result-group
+      ul
+        li
+          a href="/users/sign_out"
+            i.fa.fa-cogs.action-icon
+            b Settings
+        li
+          a href="/users/sign_out" data-method="delete"
+            i.fa.fa-key.action-icon
+            b Logout

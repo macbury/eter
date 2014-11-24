@@ -1,4 +1,4 @@
-var flashMod = angular.module("flashMod", []);
+var flashMod = angular.module("modFlash", []);
 
 flashMod.factory('FlashFactory', function FlashFactory ($translate) {
   var exports = {};

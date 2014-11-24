@@ -36,10 +36,10 @@ group :assets do
   gem 'font-awesome-sass', '~> 4.2.0'
   gem 'haml_coffee_assets'
   gem "quiet_assets"
-  gem 'nprogress-rails'
 
   gem 'angularjs-rails'
   gem 'rails-assets-angular-translate'
+  gem 'rails-assets-angular-loading-bar'
 end
 
 group :api do

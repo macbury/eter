@@ -1,5 +1,6 @@
 /*
  *= require_self
+ *= require angular-loading-bar
  *= require_tree ./libs
 */
 
@@ -12,14 +13,6 @@
 @import "bootswatch";
 @import "utils";
 
-$nprogress-color: #f1f1f1;
-$nprogress-height: 10px;
-$nprogress-zindex: 10100;
-
-@import 'nprogress';
-@import 'nprogress-bootstrap';
-
 @import "layout/container";
 @import "layout/toolbar";
 @import "layout/sense_view";
-@import "layout/body";

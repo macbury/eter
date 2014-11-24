@@ -1,5 +1,10 @@
 
 en:
+  projects:
+    header: "Projects"
+    empty: "No projects."
+  sense:
+    loading: "Working... Please wait..."
   session:
     title: "Sign in"
     submit: "Sign in"

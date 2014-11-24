@@ -1,10 +1,10 @@
 $sense-padding: 0 10px;
-
+$sense-item-padding: 10px;
 .sense-view {
   margin-top: $main_container_margin;
   margin-bottom: $main_container_margin;
-  position: absolute;
-  width: 100%;
+  position: fixed;
+  width: 40%;
   z-index: $zindex-navbar;
   .input-view {
     background: $input-bg;
@@ -27,40 +27,58 @@ $sense-padding: 0 10px;
   }
 
   .results-view {
-    margin-top: 10px;
-    background: $input-bg;
+    .result-group {
+      margin-top: 10px;
+      background: $input-bg;
 
-    color: $input-color;
-    width: 100%;
+      color: $input-color;
+      width: 100%;
 
-    box-shadow: #000 0px 0px 10px;
+      box-shadow: rgba(0,0,0,0.3) 0px 0px 10px;
 
-    ul {
-      margin: 0px;
-      padding: 0px;
-      list-style: none;
+      ul {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
 
-      li {
-        a {
-          color: $input-color;
-          padding: 10px;
-          display: block;
-          border-bottom: 1px solid #ddd;
-          .action-icon {
-            margin-right: 5px;
+        li {
+          &.loading {
+            padding: $sense-item-padding;
           }
 
-          &:hover, &.active {
-            text-decoration: none;
-            color: $navbar-inverse-color;
-            background: $brand-primary;
-          }
-        }
+          a {
+            color: $input-color;
+            padding: $sense-item-padding;
+            display: block;
+            border-bottom: 1px solid #ddd;
 
-        &:last-child a {
-          border-bottom: 0px;
+            span {
+              margin-left: 5px;
+              color: $info-color;
+            }
+
+            .action-icon {
+              margin-right: 10px;
+              margin-left: 5px;
+            }
+
+            &:hover, &.active {
+              text-decoration: none;
+              color: $navbar-inverse-color;
+              background: $brand-primary;
+              span {
+                color: $navbar-inverse-color;
+              }
+            }
+          }
+
+          &:last-child a {
+            border-bottom: 0px;
+          }
         }
       }
     }
+
+
   }
 }
