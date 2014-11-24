@@ -19,4 +19,7 @@
 //= require angular-animate
 //= require angular-resource
 //= require angular-translate
-//= require_tree .
+//= require_tree ./libs/
+//= require_tree ./modules/
+//= require eter
+//= require_self

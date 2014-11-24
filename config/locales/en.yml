@@ -11,3 +11,7 @@ en:
   forgot_password:
     title: "Forgot your password?"
     submit: "Send me reset password instructions"
+  flashes:
+    success: "Success"
+    error: "Error"
+    notice: Notice

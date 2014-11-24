@@ -32,11 +32,13 @@ gem "simple_form", ">= 3.1.0.rc1"
 group :assets do
   gem 'bootstrap-sass', '~> 3.3.1'
   gem 'autoprefixer-rails'
-  gem 'angularjs-rails'
+
   gem 'font-awesome-sass'
   gem 'haml_coffee_assets'
   gem "quiet_assets"
   gem 'nprogress-rails'
+
+  gem 'angularjs-rails'
   gem 'rails-assets-angular-translate'
 end
 

@@ -1,7 +1,8 @@
 var flashMod = angular.module("flashMod", []);
 
-flashMod.factory('FlashFactory', function FlashFactory () {
+flashMod.factory('FlashFactory', function FlashFactory ($translate) {
   var exports = {};
+
 
   exports.show = function (type, message) {
     if(type == "alert") {
@@ -10,7 +11,9 @@ flashMod.factory('FlashFactory', function FlashFactory () {
       type = "success";
     }
 
-    sweetAlert(type, message, type);
+    $translate("flashes."+type).then(function(translation) {
+      sweetAlert(translation, message, type);
+    });
   };
 
   return exports;
