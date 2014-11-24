@@ -14,7 +14,8 @@ eterApp.config(function Config($provide, $httpProvider, $translateProvider) {
   var Rails = JSON.parse(angular.element(document.querySelector('meta[name=rails]')).attr('content'));
   eterApp.constant('Rails', Rails);
 
-  $httpProvider.defaults.headers.common['X-CSRF-Token'] = angular.element(document.querySelector('meta[name=csrf-token]')).attr('content')
+  $httpProvider.defaults.headers.common['X-CSRF-Token'] = angular.element(document.querySelector('meta[name=csrf-token]')).attr('content');
+
   $provide.factory('railsAssetsInterceptor', function RailsAssetsIntercreptor($cacheFactory) {
     return {
       request: function RailsAssetsIntercreptorRequest (config) {
@@ -26,6 +27,7 @@ eterApp.config(function Config($provide, $httpProvider, $translateProvider) {
       }
     };
   });
+  
   $httpProvider.interceptors.push('railsAssetsInterceptor');
 
   if (Rails.env != "development") {

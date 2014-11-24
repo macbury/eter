@@ -20,3 +20,5 @@ en:
     success: "Success"
     error: "Error"
     notice: Notice
+    internal_server_error: "Internal server error occured while performing request!"
+    unauthorized_access: "Cannot access this resource."

@@ -18,6 +18,16 @@ modProject.factory("ProjectResource", function($http, $q) {
   return exports;
 });
 
+modProject.factory("ProjectRoutes", function($location) {
+  var exports  = {};
+
+  exports.index = function() {
+    $location.path("/projects");
+  };
+
+  return exports;
+});
+
 modProject.controller("DashboardProjectsController", function DashboardProjectsController ($scope, ProjectResource) {
   $scope.projects = null;
 

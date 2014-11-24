@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :projects
+  scope constraints: { format: :json }, defaults: { format: :json } do
+    resources :projects
+    post "/sense" => "sense#create"
+  end
 
   get '/dashboard' => "dashboard#index", as: :dashboard
 

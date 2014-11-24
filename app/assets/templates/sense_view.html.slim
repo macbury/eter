@@ -1,13 +1,13 @@
 .sense-view
   .input-view
-    i.fa.fa-bars.sense-icon ng-click="senseCtrl.toggleResults()"
-    input type="text" value="" placeholder="add story, search story" ng-focus="senseCtrl.showResults()" ng-blur="senseCtrl.hideResults()"
+    i.fa.fa-bars.sense-icon ng-click="senseCtrl.toggleResults()" ng-class="$scope.showResults"
+    input type="text" ng-model="searchText" placeholder="add story, search story" ng-keydown="senseCtrl.checkKeyDown($event)" ng-change="senseCtrl.search()"
   .results-view ng-show="senseCtrl.isShowingResults()"
     .result-group
       ul
         li.loading ng-show="senseCtrl.isLoading()"
           | {{ "sense.loading" | translate }}
-    .result-group
+    .result-group ng-show="senseCtrl.haveSuggestions()"
       ul
         li
           a href="#"

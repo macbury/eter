@@ -4,6 +4,20 @@ flashMod.factory('FlashFactory', function FlashFactory ($translate) {
   var exports = {};
 
 
+  exports.showLocalized = function (type, key) {
+    if(type == "alert") {
+      type = "error";
+    } else if (type == "notice") {
+      type = "success";
+    }
+
+    $translate("flashes."+type).then(function(typeTranslation) {
+      $translate(key).then(function(keyTranslation) {
+        sweetAlert(typeTranslation, keyTranslation, type);
+      });
+    });
+  };
+
   exports.show = function (type, message) {
     if(type == "alert") {
       type = "error";

@@ -6,7 +6,13 @@ class ProjectsController < ApplicationController
 
   def index
     authorize! :index, Project
-    @projects = Project.all
+
+    if can?(:manage, :all)
+      @projects = Project.all
+    else
+      @projects = Project.with_role([:master, :developer], current_user)
+    end
+
     respond_with(@projects)
   end
 
