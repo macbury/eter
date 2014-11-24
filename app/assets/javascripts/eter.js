@@ -1,19 +1,6 @@
-var eterApp = angular.module("eterApp", [ "flashMod", "pascalprecht.translate"]);
+var eterApp = angular.module("eterApp", [ "flashMod", "pascalprecht.translate", "senseMod"]);
 
-eterApp.constant('RailsEnv', <%= {
-  env: Rails.env,
-  templates: TemplatesPaths.templates
-}.to_json %>);
 
-eterApp.factory("Rails", function(RailsEnv) {
-  var exports = {};
-  exports.templates = RailsEnv.templates;
-  exports.env       = RailsEnv.env;
-
-  exports.isDevelopment = function() { return Rails.env == "development" };
-
-  return exports;
-})
 
 eterApp.factory('railsLocalesLoader', function RailsLocalesLoader($http) {
   return function(options) {
@@ -25,12 +12,15 @@ eterApp.factory('railsLocalesLoader', function RailsLocalesLoader($http) {
   };
 });
 
-eterApp.config(function Config($provide, $httpProvider, $translateProvider, RailsEnv) {
+eterApp.config(function Config($provide, $httpProvider, $translateProvider) {
+  var Rails = JSON.parse(angular.element(document.querySelector('meta[name=rails]')).attr('content'));
+  eterApp.constant('Rails', Rails);
+
   $httpProvider.defaults.headers.common['X-CSRF-Token'] = angular.element(document.querySelector('meta[name=csrf-token]')).attr('content')
   $provide.factory('railsAssetsInterceptor', function RailsAssetsIntercreptor($cacheFactory) {
     return {
       request: function RailsAssetsIntercreptorRequest (config) {
-        var assetUrl = RailsEnv.templates[config.url];
+        var assetUrl = Rails.templates[config.url];
         if (assetUrl != null) {
           config.url = assetUrl;
         }
@@ -40,7 +30,7 @@ eterApp.config(function Config($provide, $httpProvider, $translateProvider, Rail
   });
   $httpProvider.interceptors.push('railsAssetsInterceptor');
 
-  if (RailsEnv.env != "development") {
+  if (Rails.env != "development") {
     $provide.service("$templateCache", function($cacheFactory) {
       return $cacheFactory('templateCache', {
         maxAge: 3600000 * 24 * 7,

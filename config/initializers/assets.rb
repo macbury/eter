@@ -6,12 +6,10 @@ Rails.application.config.assets.version = '0.1'
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 # Rails.application.config.assets.precompile += %w( search.js )
-Rails.application.config.assets.precompile += %w{locales/*.json}
+Rails.application.config.assets.precompile += %w{locales/*.json templates/*.slim}
 Rails.application.assets.register_mime_type 'text/html', '.html'
 Rails.application.assets.register_engine '.slim', Slim::Template
 
-# config/initializers/sprockets.rb
-# add custom depend_on_config sprockets processor directive
 class Sprockets::DirectiveProcessor
   def process_depend_on_config_directive(file)
     path = File.expand_path(file, Rails.root.join('config'))

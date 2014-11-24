@@ -310,7 +310,7 @@ DEPENDENCIES
   factory_girl_rails
   faye
   figaro
-  font-awesome-sass
+  font-awesome-sass (~> 4.2.0)
   gitlab
   guard
   guard-bundler

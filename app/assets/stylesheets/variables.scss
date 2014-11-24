@@ -2,6 +2,7 @@
 // Variables
 // --------------------------------------------------
 
+$main_container_margin: 15px;
 
 //== Colors
 //
@@ -74,14 +75,6 @@ $headings-color:          inherit;
 //== Iconography
 //
 //## Specify custom location and filename of the included Glyphicons icon font. Useful for those including Bootstrap via Bower.
-
-//** Load fonts from this directory.
-$icon-font-path:          "../fonts/";
-//** File name for all font files.
-$icon-font-name:          "glyphicons-halflings-regular";
-//** Element ID within SVG icon file.
-$icon-font-svg-id:        "glyphicons_halflingsregular";
-
 
 //== Components
 //
@@ -854,6 +847,3 @@ $page-header-border-color:    transparent;
 $dl-horizontal-offset:        $component-offset-horizontal;
 //** Horizontal line color.
 $hr-border:                   $gray;
-
-
-$main_container_margin: 10px;

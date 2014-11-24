@@ -1,0 +1,66 @@
+$sense-padding: 0 10px;
+
+.sense-view {
+  margin-top: $main_container_margin;
+  margin-bottom: $main_container_margin;
+  position: absolute;
+  width: 100%;
+  z-index: $zindex-navbar;
+  .input-view {
+    background: $input-bg;
+    color: $input-color;
+    height: $input-height-base;
+    line-height: $input-height-base;
+    padding: $sense-padding;
+
+    .sense-icon {
+      margin-right: 10px;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+
+    input[type="text"] {
+      margin: 0px;
+      padding: 0px;
+      width: 80%;
+    }
+  }
+
+  .results-view {
+    margin-top: 10px;
+    background: $input-bg;
+
+    color: $input-color;
+    width: 100%;
+
+    box-shadow: #000 0px 0px 10px;
+
+    ul {
+      margin: 0px;
+      padding: 0px;
+      list-style: none;
+
+      li {
+        a {
+          color: $input-color;
+          padding: 10px;
+          display: block;
+          border-bottom: 1px solid #ddd;
+          .action-icon {
+            margin-right: 5px;
+          }
+
+          &:hover, &.active {
+            text-decoration: none;
+            color: $navbar-inverse-color;
+            background: $brand-primary;
+          }
+        }
+
+        &:last-child a {
+          border-bottom: 0px;
+        }
+      }
+    }
+  }
+}

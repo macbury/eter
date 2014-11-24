@@ -33,7 +33,7 @@ group :assets do
   gem 'bootstrap-sass', '~> 3.3.1'
   gem 'autoprefixer-rails'
 
-  gem 'font-awesome-sass'
+  gem 'font-awesome-sass', '~> 4.2.0'
   gem 'haml_coffee_assets'
   gem "quiet_assets"
   gem 'nprogress-rails'

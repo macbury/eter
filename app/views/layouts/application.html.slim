@@ -4,6 +4,7 @@ html ng-app="eterApp"
     title Eter
     = stylesheet_link_tag    'application', media: 'all'
     = csrf_meta_tags
+    = env_tag
   body
     = yield
     = render_flashes

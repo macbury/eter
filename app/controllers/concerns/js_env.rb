@@ -12,11 +12,5 @@ module JsEnv
       env: Rails.env,
       templates: templates
     }
-
-    <<-EOS.html_safe
-    <script type="text/javascript">
-      boot_with_rails(#{data.to_json});
-    </script>
-    EOS
   end
 end
