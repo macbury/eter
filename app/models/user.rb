@@ -3,6 +3,14 @@ class User < ActiveRecord::Base
   rolify
 
   def projects
-    Project.with_role([:master, :developer], self)
+    if has_role?(:admin)
+      Project.all
+    else
+      Project.with_role([:master, :developer], self)
+    end
+  end
+
+  def project_ids
+    projects.pluck(:id)
   end
 end

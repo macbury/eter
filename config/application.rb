@@ -17,7 +17,7 @@ module Eter
   class Application < Rails::Application
     config.generators.assets = false
     config.generators.helper = false
-    config.autoload_paths += %W(#{Rails.root.join("app/senses")})
+    config.autoload_paths += %W(#{Rails.root.join("app/senses")} #{Rails.root.join("app/senses/list")})
     # Set Time.zone default to the specified zone and make Active Record auto-convert to this zone.
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     # config.time_zone = 'Central Time (US & Canada)'

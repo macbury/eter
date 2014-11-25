@@ -11,11 +11,8 @@
     .result-group ng-show="senseCtrl.haveSuggestions()"
       ul
         li ng-repeat="suggestion in suggestions"
-          a href="#"
-            i.fa.fa-plus.action-icon
-            b Create story:
-            span
-              | {{ suggestion }}
+          div mop-include="senseCtrl.suggestionToTemplate(suggestion)" values="{ 'suggestion' : suggestion }"
+
     .result-group
       ul.row
         li

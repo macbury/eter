@@ -83,8 +83,13 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
       return $scope.suggestions.length > 0;
     }
 
+    this.suggestionToTemplate = function(suggestion) {
+      return "senses/actions/"+suggestion.name+".html";
+    }
+
     this.search        = function() {
       $scope.loading = true;
+      $scope.suggestions = [];
       SenseService.sense($scope.searchText).then(function( suggestions ) {
         $scope.suggestions = suggestions;
         $scope.loading     = false;

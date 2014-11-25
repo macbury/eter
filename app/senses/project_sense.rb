@@ -1,3 +1,0 @@
-class ProjectSense < BaseSense
-
-end

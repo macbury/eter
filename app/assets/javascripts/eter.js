@@ -1,4 +1,4 @@
-var eterApp = angular.module("eterApp", [ "modFlash", "pascalprecht.translate", "modSense", "ngRoute", "modProject", 'angular-loading-bar']);
+var eterApp = angular.module("eterApp", [ "modFlash", "pascalprecht.translate", "modSense", "ngRoute", "modProject", 'angular-loading-bar', 'mopInclude']);
 
 eterApp.factory('railsLocalesLoader', function RailsLocalesLoader($http) {
   return function(options) {
@@ -27,7 +27,7 @@ eterApp.config(function Config($provide, $httpProvider, $translateProvider) {
       }
     };
   });
-  
+
   $httpProvider.interceptors.push('railsAssetsInterceptor');
 
   if (Rails.env != "development") {

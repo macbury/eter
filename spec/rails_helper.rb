@@ -19,6 +19,7 @@ RSpec.configure do |config|
   config.include Devise::TestHelpers, type: :controller
   config.include ResponseMacros, type: :controller
   config.include Warden::Test::Helpers, type: :feature
+  config.include SenseMacro
   config.extend FeatureDevise, type: :feature
   config.include Rails.application.routes.url_helpers, type: :feature
   config.extend DeviseMacros,     type: :controller

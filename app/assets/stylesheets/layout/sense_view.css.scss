@@ -47,6 +47,7 @@ $sense-item-padding: 10px;
           }
 
           a {
+            cursor: pointer;
             color: $input-color;
             padding: $sense-item-padding;
             display: block;
