@@ -12,7 +12,7 @@ class ProjectsController < ApplicationController
     else
       @projects = Project.with_role([:master, :developer], current_user)
     end
-
+    
     respond_with(@projects)
   end
 

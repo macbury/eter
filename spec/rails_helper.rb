@@ -6,10 +6,11 @@ require 'rspec/rails'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 require 'shoulda/matchers'
+require 'billy/rspec'
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
-Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :poltergeist_billy
 Warden.test_mode!
 
 RSpec.configure do |config|
@@ -26,6 +27,10 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation)
 
     Warden.test_reset!
+
+    Billy.configure do |c|
+      c.whitelist = ['test.host', 'localhost', '127.0.0.1', "http://www.example.com/"]
+    end
   end
 
   config.around(:each) do |example|

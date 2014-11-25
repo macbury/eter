@@ -37,6 +37,14 @@ feature "Dashboard", js: true do
       find(".sense-input").set("bla bla bla")
       expect(page).to have_text(I18n.t("sense.loading"))
     end
+
+    scenario "after typing in sense menu i should see error message for any internal error on server side" do
+      allow_any_instance_of(SenseController).to receive(:create).and_return { raise Exception.new }
+      visit root_path
+      find(".sense-input").set("bla bla bla")
+
+      expect(page).to have_text(I18n.t("flashes.internal_server_error"))
+    end
   end
 
 end

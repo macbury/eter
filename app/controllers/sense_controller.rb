@@ -5,6 +5,7 @@ class SenseController < ApplicationController
 
   def create
     @context = SenseContext.new(params, current_user)
+
     render json: []
   end
 end

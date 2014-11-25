@@ -40,6 +40,8 @@ group :assets do
   gem 'angularjs-rails'
   gem 'rails-assets-angular-translate'
   gem 'rails-assets-angular-loading-bar'
+
+  gem "rails-assets-angular-mocks"
 end
 
 group :api do
@@ -63,6 +65,7 @@ group :development, :test do
   gem 'shoulda-matchers', require: false
   gem "rack-livereload"
   gem "launchy"
+  gem 'puffing-billy', require: false
 end
 
 # Use Capistrano for deployment
