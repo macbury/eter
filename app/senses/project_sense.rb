@@ -1,0 +1,3 @@
+class ProjectSense < BaseSense
+
+end

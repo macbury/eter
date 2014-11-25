@@ -1,8 +1,5 @@
 FactoryGirl.define do
   factory :project do
-    title { |n| "Project #{n}" }
-
-
+    title { |n| "New project #{n}" }
   end
-
 end

@@ -4,6 +4,7 @@ class SenseController < ApplicationController
   respond_to :json
 
   def create
+    @context = SenseContext.new(params, current_user)
     render json: []
   end
 end

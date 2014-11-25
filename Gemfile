@@ -62,6 +62,7 @@ group :development, :test do
   gem "binding_of_caller"
   gem 'shoulda-matchers', require: false
   gem "rack-livereload"
+  gem "launchy"
 end
 
 # Use Capistrano for deployment

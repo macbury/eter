@@ -5,6 +5,10 @@ en:
     empty: "No projects."
   sense:
     loading: "Working... Please wait..."
+    settings:
+      label: "Settings"
+    logout:
+      label: "Logout"
   session:
     title: "Sign in"
     submit: "Sign in"

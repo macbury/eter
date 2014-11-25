@@ -9,17 +9,23 @@ require 'shoulda/matchers'
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
 ActiveRecord::Migration.maintain_test_schema!
+Capybara.javascript_driver = :poltergeist
+Warden.test_mode!
 
 RSpec.configure do |config|
-  Capybara.javascript_driver = :poltergeist
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
   config.include FactoryGirl::Syntax::Methods
   config.include Devise::TestHelpers, type: :controller
   config.include ResponseMacros, type: :controller
+  config.include Warden::Test::Helpers, type: :feature
+  config.extend FeatureDevise, type: :feature
+  config.include Rails.application.routes.url_helpers, type: :feature
   config.extend DeviseMacros,     type: :controller
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
+
+    Warden.test_reset!
   end
 
   config.around(:each) do |example|

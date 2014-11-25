@@ -1,7 +1,8 @@
 .sense-view
   .input-view
-    i.fa.fa-bars.sense-icon ng-click="senseCtrl.toggleResults()" ng-class="$scope.showResults"
-    input type="text" ng-model="searchText" placeholder="add story, search story" ng-keydown="senseCtrl.checkKeyDown($event)" ng-change="senseCtrl.search()"
+    i.fa.fa-bars.sense-icon.sense-open ng-click="senseCtrl.showMenu()" ng-hide="senseCtrl.isShowingResults()"
+    i.fa.fa-close.sense-icon.sense-close ng-click="senseCtrl.clear()" ng-show="senseCtrl.isShowingResults()"
+    input.sense-input type="text" ng-model="searchText" placeholder="add story, search story" ng-keydown="senseCtrl.checkKeyDown($event)" ng-change="senseCtrl.search()"
   .results-view ng-show="senseCtrl.isShowingResults()"
     .result-group
       ul
@@ -9,34 +10,21 @@
           | {{ "sense.loading" | translate }}
     .result-group ng-show="senseCtrl.haveSuggestions()"
       ul
-        li
+        li ng-repeat="suggestion in suggestions"
           a href="#"
             i.fa.fa-plus.action-icon
             b Create story:
-            span Hello world!
-        li
-          a href="#"
-            i.fa.fa-plus.action-icon
-            b Create story:
-            span Hello world!
-        li.divider
-        li
-          a href="#"
-            i.fa.fa-plus.action-icon
-            b Create story:
-            span Hello world!
-        li
-          a href="#"
-            i.fa.fa-plus.action-icon
-            b Create story:
-            span Hello world!
+            span
+              | {{ suggestion }}
     .result-group
-      ul
+      ul.row
         li
           a href="/users/sign_out"
             i.fa.fa-cogs.action-icon
-            b Settings
+            b
+              | {{ "sense.settings.label" | translate }}
         li
-          a href="/users/sign_out" data-method="delete"
+          a href=Rails.application.routes.url_helpers.destroy_user_session_path data-method="delete"
             i.fa.fa-key.action-icon
-            b Logout
+            b
+              | {{ "sense.logout.label" | translate }}

@@ -77,13 +77,14 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
     $scope.showResults = false;
     $scope.loading     = false;
     $scope.searchText  = "";
-    $scope.suggestions = []
+    $scope.suggestions = [];
 
     this.haveSuggestions = function() {
       return $scope.suggestions.length > 0;
     }
 
     this.search        = function() {
+      $scope.loading = true;
       SenseService.sense($scope.searchText).then(function( suggestions ) {
         $scope.suggestions = suggestions;
         $scope.loading     = false;
@@ -98,7 +99,7 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
           $scope.loading = false;
         }
       });
-      $scope.loading = true;
+
     };
 
     this.checkKeyDown  = function(event) {
@@ -114,8 +115,17 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
       }
     };
 
-    this.toggleResults = function () {
-      $scope.showResults = !$scope.showResults;
+    this.showMenu = function () {
+      $scope.showResults = true;
+    };
+
+    this.clear    = function() {
+      $scope.searchText  = "";
+      $scope.showResults = false;
+      $scope.suggestions = [];
+      $scope.loading     = false;
+      SenseService.cancel();
+
     };
 
     this.isShowingResults = function () {
