@@ -7,7 +7,7 @@ en:
       label: "Go to project: "
   projects:
     header: "Projects"
-    empty: "No projects."
+    empty: "You are not assigned to any project."
   sense:
     loading: "Working... Please wait..."
     settings:

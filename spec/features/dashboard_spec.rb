@@ -15,6 +15,11 @@ feature "Dashboard", js: true do
   describe "as user" do
     as_user(:user)
 
+    scenario "i should see information about no projects assigned to me" do
+      visit root_path
+      expect(page).to have_text(I18n.t("projects.empty"))
+    end
+
     scenario "i should see login and settings option after click sense menu" do
       visit root_path
       find(".sense-open").click

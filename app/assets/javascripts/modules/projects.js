@@ -31,7 +31,7 @@ modProject.factory("ProjectRoutes", function($location) {
 modProject.controller("DashboardProjectsController", function DashboardProjectsController ($scope, ProjectResource) {
   $scope.projects = null;
 
-  this.isEmpty = function() { return $scope.projects == {}; }
+  this.isEmpty = function() { return $scope.projects != null && $scope.projects.length == 0; }
 
   ProjectResource.all().then(function(projects) {
     $scope.projects = projects;
