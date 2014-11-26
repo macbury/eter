@@ -1,7 +1,7 @@
 class SenseAction
   include ActiveModel::Validations
   PRIORITY = { :normal => 0, :low => -1, :high => 1, :very_high => 2 }
-  attr_accessor :action, :priority, :payload
+  attr_accessor :action, :priority, :payload, :description
 
   validates :action, :priority, :payload, presence: true
   validates :priority, inclusion: { in: PRIORITY.keys }
@@ -21,7 +21,7 @@ class SenseAction
   end
 
   def to_h
-    { action: self.action, priority: self.sort_key, payload: self.payload }
+    { action: self.action, description: description, priority: self.sort_key, payload: self.payload }
   end
 
   def to_json

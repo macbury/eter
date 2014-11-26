@@ -1,0 +1,13 @@
+.action-icon {
+  &:before {
+    content: $fa-var-search;
+  }
+
+  &.create_project_action:before {
+    content: $fa-var-heart;
+  }
+
+  &.goto_project_action:before {
+    content: $fa-var-usd;
+  }
+}

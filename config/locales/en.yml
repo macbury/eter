@@ -1,9 +1,9 @@
 
 en:
   senses:
-    create_project_sense:
+    create_project_action:
       label: "Create a new project: "
-    search_project_sense:
+    goto_project_action:
       label: "Go to project: "
   projects:
     header: "Projects"

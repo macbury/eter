@@ -1,9 +1,18 @@
 class SenseContext
 
-  def initialize(params, current_user)
-    @current_user = current_user
-    @query        = params[:query].strip
-    @params       = params
+  def initialize(params, current_user, current_ability)
+    @current_user    = current_user
+    @current_ability = current_ability
+    @query           = params[:query].strip
+    @params          = params
+  end
+
+  def can?(*args)
+    @current_ability.can?(*args)
+  end
+
+  def cannot?(*args)
+    @current_ability.cannot?(*args)
   end
 
   def query
@@ -16,6 +25,14 @@ class SenseContext
 
   def current_project
     @project ||= Project.where(id: @params[:project_id]).first if @params.key?(:project_id)
+  end
+
+  def have_project?
+    current_project.present?
+  end
+
+  def actions
+    results
   end
 
   def results
@@ -33,16 +50,12 @@ class SenseContext
   def search
     @results = []
     BaseSense.all.each do |sense_class|
-      result = sense_class.build_for_context!(self)
-      if result.class == Array
-        @results += result
-      else
-        @results << result
-      end
+      sense    = sense_class.new(self)
+      @results += sense.actions
     end
 
     @results.compact!
-    @results.sort! { |a,b| b.priority <=> a.priority }
+    @results.sort! { |a,b| b.sort_key <=> a.sort_key }
   end
 
 end

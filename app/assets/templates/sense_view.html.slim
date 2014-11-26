@@ -11,7 +11,13 @@
     .result-group ng-show="senseCtrl.haveSuggestions()"
       ul
         li ng-repeat="suggestion in suggestions"
-          div mop-include="senseCtrl.suggestionToTemplate(suggestion)" values="{ 'suggestion' : suggestion }"
+          a ng-href="{{ senseCtrl.suggestionToUrl(suggestion); }}"
+            i.fa.action-icon ng-class="suggestion.action"
+            b
+              | {{ 'senses.'+suggestion.action+'.label' | translate }}
+            span ng-show="suggestion.description"
+              | {{ suggestion.description }}
+
 
     .result-group
       ul.row

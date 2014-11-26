@@ -1,35 +1,35 @@
 class BaseSense
   REGEXP_SENSE_FILE = /_sense\.rb/i
+
   def initialize(context)
+    log "Processing..."
     @context = context
+    @actions = []
+    process
   end
 
-  def name
-    self.class.name.to_s.underscore
+  def context
+    @context
   end
 
-  def payload
-    throw "Implement payload method in #{self.class}"
+  def log(msg)
+    Rails.logger.debug "[#{self.class}] #{msg}"
   end
 
-  def priority
-    0
+  def process
+    throw "Implement process method method in #{self.class}"
   end
 
-  def valid?
-    throw "Implement valid? method in #{self.class}"
+  def push(action)
+    if action.valid?
+      @actions << action
+    else
+      throw Exception.new("Sense action is not valid #{action.class}: #{action.errors.full_messages}")
+    end
   end
 
-  def to_json
-    to_h.to_json
-  end
-
-  def to_h
-    { name: name, payload: payload, priority: priority }
-  end
-
-  def self.build_for_context!(context)
-    throw "implement build_for_context! in #{self.name}"
+  def actions
+    @actions
   end
 
   def self.all

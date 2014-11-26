@@ -1,4 +1,4 @@
-var senseMod = angular.module("modSense", ["modFlash"]);
+var senseMod = angular.module("modSense", ["modFlash", "modRoute"]);
 
 senseMod.factory("SenseService", function($http, $q, $timeout) {
   var exports       = {};
@@ -72,8 +72,9 @@ senseMod.factory("SenseService", function($http, $q, $timeout) {
   return exports;
 });
 
-senseMod.directive("senseView", function SenseViewDirective($http, $location, SenseService, FlashFactory) {
+senseMod.directive("senseView", function SenseViewDirective($http, $location, SenseService, FlashFactory, Routes) {
   function SenseViewController($scope) {
+    console.log($location.search());
     $scope.showResults = false;
     $scope.loading     = false;
     $scope.searchText  = "";
@@ -81,6 +82,10 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
 
     this.haveSuggestions = function() {
       return $scope.suggestions.length > 0;
+    }
+
+    this.suggestionToUrl    = function(suggestion) {
+      return Routes.currentUrl({ action: suggestion });
     }
 
     this.suggestionToTemplate = function(suggestion) {
@@ -130,7 +135,6 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
       $scope.suggestions = [];
       $scope.loading     = false;
       SenseService.cancel();
-
     };
 
     this.isShowingResults = function () {

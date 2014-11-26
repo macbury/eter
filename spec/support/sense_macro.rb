@@ -1,3 +1,4 @@
+require 'rspec/expectations'
 module SenseMacro
 
   def sense_context(query, *factories_names)
@@ -9,7 +10,17 @@ module SenseMacro
       output
     end
     params[:query] = query
-    SenseContext.new(params, current_user)
+    SenseContext.new(params, current_user, Ability.new(current_user))
+  end
+
+  RSpec::Matchers.define :have_action do |expected|
+    match do |base_sense|
+      base_sense.actions.any? { |sense_action| sense_action.action == expected }
+    end
+    failure_message do |base_sense|
+      action_names = base_sense.actions.map { |sense_action| sense_action.action }.join(", ")
+      "expected that actions #{action_names} would have action #{expected}"
+    end
   end
 
 end

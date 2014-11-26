@@ -61,6 +61,8 @@ $sense-item-padding: 10px;
             .action-icon {
               margin-right: 10px;
               margin-left: 5px;
+              min-width: 15px;
+              text-align: center;
             }
 
             &:hover, &.active {
