@@ -74,27 +74,43 @@ senseMod.factory("SenseService", function($http, $q, $timeout) {
 
 senseMod.directive("senseView", function SenseViewDirective($http, $location, SenseService, FlashFactory, Routes) {
   function SenseViewController($scope) {
-    console.log($location.search());
+
     $scope.showResults = false;
     $scope.loading     = false;
     $scope.searchText  = "";
     $scope.suggestions = [];
+    $scope.currentSense = null;
+
+    this.loadActionFromUrl = function() {
+      var action = $location.search()["action"];
+      if (action != null) {
+        try {
+          action = JSON.parse(atob(action));
+          this.startAction(action);
+        } catch(e) {
+
+        }
+      }
+    }
 
     this.haveSuggestions = function() {
       return $scope.suggestions.length > 0;
     }
 
-    this.suggestionToUrl    = function(suggestion) {
-      return Routes.currentUrl({ action: suggestion });
+    this.reset = function() {
+      $scope.loading = false;
+      $scope.suggestions = [];
+      $scope.showResults = false;
+      $scope.currentSense = null;
     }
 
-    this.suggestionToTemplate = function(suggestion) {
-      return "senses/actions/"+suggestion.name+".html";
+    this.actionToTemplate = function(senseAction) {
+      return "senses/actions/"+senseAction.name+".html";
     }
 
     this.search        = function() {
+      this.reset();
       $scope.loading = true;
-      $scope.suggestions = [];
       SenseService.sense($scope.searchText).then(function( suggestions ) {
         $scope.suggestions = suggestions;
         $scope.loading     = false;
@@ -125,15 +141,18 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
       }
     };
 
+    this.startAction = function (senseAction) {
+      this.reset();
+      $scope.currentSense = senseAction;
+    }
+
     this.showMenu = function () {
       $scope.showResults = true;
     };
 
     this.clear    = function() {
       $scope.searchText  = "";
-      $scope.showResults = false;
-      $scope.suggestions = [];
-      $scope.loading     = false;
+      this.reset();
       SenseService.cancel();
     };
 
@@ -145,13 +164,59 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
       return $scope.loading;
     };
 
+    this.loadActionFromUrl();
   }
 
   return {
     restrict: "E",
-    templateUrl: "sense_view.html",
+    templateUrl: "senses/sense_view.html",
     controller: SenseViewController,
     controllerAs: "senseCtrl",
     replace: true
   };
+});
+
+senseMod.directive("senseActionLink", function($location, Routes) {
+
+  function SenseActionLinkController($scope) {
+    this.actionUrl = function() {
+      return Routes.actionUrl($scope.senseAction);
+    }
+
+    this.onActionClick = function($event) {
+      $event.preventDefault();
+      $scope.onActionClick($scope.senseAction);
+    }
+  }
+
+  return {
+    restrict: "E",
+    controller: SenseActionLinkController,
+    controllerAs: "senseActionCtrl",
+    templateUrl: "senses/action_link.html",
+    scope: {
+      "onActionClick": "&onActionClick",
+      "senseAction": "=action"
+    },
+    replace: true
+  }
+});
+
+senseMod.directive("senseGroupMe", function() {
+  return {
+    restrict: "E",
+    replace: true,
+    templateUrl: "senses/group_me.html"
+  }
+});
+
+senseMod.directive("senseGroupLoading", function() {
+  return {
+    restrict: "E",
+    replace: true,
+    templateUrl: "senses/group_loading.html",
+    scope: {
+      "isLoading": "&isLoading",
+    }
+  }
 });

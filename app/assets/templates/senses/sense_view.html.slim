@@ -1,0 +1,14 @@
+.sense-view
+  .input-view
+    i.fa.fa-bars.sense-icon.sense-open ng-click="senseCtrl.showMenu()" ng-hide="senseCtrl.isShowingResults()"
+    i.fa.fa-close.sense-icon.sense-close ng-click="senseCtrl.clear()" ng-show="senseCtrl.isShowingResults()"
+    input.sense-input type="text" ng-model="searchText" placeholder="add story, search story" ng-keydown="senseCtrl.checkKeyDown($event)" ng-change="senseCtrl.search()"
+  .results-view ng-show="senseCtrl.isShowingResults()"
+    .result-group ng-show="currentSense"
+    
+    sense-group-loading is-loading="senseCtrl.isLoading()"
+    .result-group ng-show="senseCtrl.haveSuggestions()"
+      ul
+        li ng-repeat="suggestion in suggestions"
+          sense-action-link on-action-click="senseCtrl.startAction(suggestion)" action="suggestion"
+    sense-group-me

@@ -1,0 +1,6 @@
+a ng-href="{{ senseActionCtrl.actionUrl() }}" ng-click="senseActionCtrl.onActionClick($event)"
+  i.fa.action-icon ng-class="senseAction.action"
+  b
+    | {{ 'senses.'+senseAction.action+'.label' | translate }}
+  span ng-show="senseAction.description"
+    | {{ senseAction.description }}
