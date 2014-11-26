@@ -46,6 +46,14 @@ $sense-item-padding: 10px;
             padding: $sense-item-padding;
           }
 
+          &.selected a {
+            color: $navbar-inverse-color;
+            background: $brand-primary;
+            span {
+              color: $navbar-inverse-color;
+            }
+          }
+
           a {
             cursor: pointer;
             color: $input-color;

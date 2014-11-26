@@ -91,7 +91,7 @@ senseMod.factory("SenseService", function($http, $q, $timeout, $rootScope) {
 
 senseMod.directive("senseView", function SenseViewDirective($http, $location, SenseService, FlashFactory, Routes) {
   function SenseViewController($scope) {
-
+    $scope.suggestionIndex = 0;
     $scope.showResults = false;
     $scope.loading     = false;
     $scope.searchText  = "";
@@ -116,6 +116,7 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
 
     this.reset = function() {
       $scope.loading = false;
+      $scope.suggestionIndex = 0;
       $scope.suggestions = [];
       $scope.showResults = false;
       $scope.currentSense = null;
@@ -148,26 +149,31 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
     this.checkKeyDown  = function(event) {
       if(event.keyCode===40){
         event.preventDefault();
-        console.log("key down");
+        if ($scope.suggestionIndex < $scope.suggestions.length - 1){
+          $scope.suggestionIndex++;
+        }
       } else if(event.keyCode===38){
         event.preventDefault();
-        console.log("key up");
+        if ($scope.suggestionIndex > 0){
+          $scope.suggestionIndex--;
+        }
       } else if(event.keyCode===13){ //enter pressed
         event.preventDefault();
-        console.log("enter");
+
+        var senseAction = $scope.suggestions[$scope.suggestionIndex];
+        this.startAction(senseAction);
       }
     };
 
     this.startAction = function (senseAction) {
-      this.clear();
       var redirectTo = Routes.getUrlForAction(senseAction);
       if (redirectTo != null) {
+        this.clear();
         $location.path(redirectTo);
-        $location.replace();
       } else {
+        this.reset();
         $scope.currentSense = senseAction;
       }
-
     }
 
     this.showMenu = function () {
@@ -204,13 +210,26 @@ senseMod.directive("senseActionLink", function($location, Routes) {
 
   function SenseActionLinkController($scope) {
     this.actionUrl = function() {
-      return Routes.actionUrl($scope.senseAction);
-    }
+      var redirectTo = Routes.getUrlForAction($scope.senseAction);
+      if (redirectTo != null) {
+        return "#"+redirectTo;
+      } else {
+        return Routes.actionUrl($scope.senseAction);
+      }
+    };
+
+    this.haveRedirect = function() {
+      return Routes.getUrlForAction($scope.senseAction) != null;
+    };
 
     this.onActionClick = function($event) {
-      $event.preventDefault();
-      $scope.onActionClick($scope.senseAction);
-    }
+      if (this.haveRedirect()) {
+        $scope.onRedirectClick();
+      } else {
+        $event.preventDefault();
+        $scope.onActionClick($scope.senseAction);
+      }
+    };
   }
 
   return {
@@ -220,6 +239,7 @@ senseMod.directive("senseActionLink", function($location, Routes) {
     templateUrl: "senses/action_link.html",
     scope: {
       "onActionClick": "&onActionClick",
+      "onRedirectClick": "&onRedirectClick",
       "senseAction": "=action"
     },
     replace: true

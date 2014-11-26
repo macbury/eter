@@ -5,10 +5,10 @@
     input.sense-input type="text" ng-model="searchText" placeholder="add story, search story" ng-keydown="senseCtrl.checkKeyDown($event)" ng-change="senseCtrl.search()"
   .results-view ng-show="senseCtrl.isShowingResults()"
     .result-group ng-show="currentSense"
-    
+      | {{ currentSense }}
     sense-group-loading is-loading="senseCtrl.isLoading()"
     .result-group ng-show="senseCtrl.haveSuggestions()"
       ul
-        li ng-repeat="suggestion in suggestions"
-          sense-action-link on-action-click="senseCtrl.startAction(suggestion)" action="suggestion"
+        li ng-repeat="suggestion in suggestions" ng-class="{selected: $index == suggestionIndex}"
+          sense-action-link on-action-click="senseCtrl.startAction(suggestion)" on-redirect-click="senseCtrl.clear()" action="suggestion"
     sense-group-me
