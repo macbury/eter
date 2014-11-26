@@ -6,6 +6,6 @@ div ng-controller="DashboardProjectsController as projectsController"
     .col-md-3 ng-repeat="project in rows"
       .panel.panel-primary
         .panel-heading
-          | {{ project.title }}
+          a ng-href="{{ projectsController.projectUrl(project); }}"
+            | {{ project.title }}
         .panel-body
-          

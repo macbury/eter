@@ -16,12 +16,29 @@ class SenseAction
     self.payload[key] = value
   end
 
+  def get_extra(key)
+    payload[key]
+  end
+
+  def redirect_to(path, params)
+    put_extra(:path, path)
+    put_extra(:path_params, params)
+  end
+
+  def have_redirect?
+    have_extra?(:path) && have_extra?(:path_params)
+  end
+
+  def have_extra?(key)
+    payload.key?(key)
+  end
+
   def sort_key
     PRIORITY[self.priority] || 0
   end
 
   def to_h
-    { action: self.action, description: description, priority: self.sort_key, payload: self.payload }
+    { action: self.action, description: description, payload: self.payload }
   end
 
   def to_json

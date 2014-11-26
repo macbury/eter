@@ -1,4 +1,4 @@
-var eterApp = angular.module("eterApp", [ "modFlash", "pascalprecht.translate", "modSense", "ngRoute", "modProject", 'angular-loading-bar', 'mopInclude', 'modActivities', 'modRoute']);
+var eterApp = angular.module("eterApp", [ "ngAnimate", "modBrowser", "modFlash", "pascalprecht.translate", "modSense", "ngRoute", "modProject", 'angular-loading-bar', 'mopInclude', 'modActivities', 'modRoute']);
 
 eterApp.factory('railsLocalesLoader', function RailsLocalesLoader($http) {
   return function(options) {
@@ -10,9 +10,10 @@ eterApp.factory('railsLocalesLoader', function RailsLocalesLoader($http) {
   };
 });
 
-eterApp.config(function Config($provide, $httpProvider, $translateProvider) {
+eterApp.config(function Config($provide, $httpProvider, $translateProvider, BrowserProvider) {
   var Rails = JSON.parse(angular.element(document.querySelector('meta[name=rails]')).attr('content'));
   eterApp.constant('Rails', Rails);
+  BrowserProvider.setAppName("Eter");
 
   $httpProvider.defaults.headers.common['X-CSRF-Token'] = angular.element(document.querySelector('meta[name=csrf-token]')).attr('content');
 

@@ -7,7 +7,6 @@ class ProjectsController < ApplicationController
   def index
     authorize! :index, Project
     @projects = current_user.projects
-
     respond_with(@projects)
   end
 

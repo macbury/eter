@@ -17,10 +17,11 @@ class ProjectSense < BaseSense
     end
 
     def propose_to_go_to_projects
-      context.current_user.projects.by_title(context.query).each do |project|
+      projects_go_to = context.current_user.projects.by_title(context.query).except_project(context.current_project)
+      projects_go_to.each do |project|
         action = SenseAction.new(GOTO_PROJECT_ACTION)
         action.put_extra(:title, project.title)
-        action.put_extra(:project_id, project.id)
+        action.redirect_to(:project, project_id: project.id)
         action.priority    = :normal
         action.description = project.title
         push(action)

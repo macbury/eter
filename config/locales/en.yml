@@ -6,7 +6,7 @@ en:
     goto_project_action:
       label: "Go to project: "
   projects:
-    header: "Projects"
+    header: "My projects"
     empty: "You are not assigned to any project."
   sense:
     loading: "Working... Please wait..."

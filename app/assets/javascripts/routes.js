@@ -6,7 +6,7 @@ eterApp.config(function ($routeProvider) {
       templateUrl: 'views/projects_index.html'
     })
     .when('/projects/:id', {
-      templateUrl: 'views/projects_index.html'
+      templateUrl: 'views/project_show.html'
     })
     .otherwise({
       redirectTo: '/projects'

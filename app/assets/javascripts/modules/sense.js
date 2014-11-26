@@ -1,15 +1,24 @@
 var senseMod = angular.module("modSense", ["modFlash", "modRoute"]);
 
-senseMod.factory("SenseService", function($http, $q, $timeout) {
+senseMod.factory("SenseService", function($http, $q, $timeout, $rootScope) {
   var exports       = {};
+  var context      = {};
   var query        = null;
   var searchTimer  = null;
   var queryRequest = null;
   var sensePromise = null;
 
+  $rootScope.$on('$routeChangeSuccess', function (event, current, previous) {
+    exports.clearContext();
+  });
+
   function executeSearch() {
     resetSearchTimer();
-    $http.post("/sense", { sense: { query: query } }).success(function(data, status) {
+
+    var sense_params = {};
+    angular.copy(context, sense_params);
+    sense_params["query"] = query;
+    $http.post("/sense", { sense: sense_params }).success(function(data, status) {
       resetQueryRequest();
 
       if (status == 200) {
@@ -47,6 +56,14 @@ senseMod.factory("SenseService", function($http, $q, $timeout) {
       sensePromise.reject("cancel");
       sensePromise = null;
     }
+  };
+
+  exports.clearContext = function() {
+    context = {};
+  };
+
+  exports.putContext = function(key, value) {
+    context[key] = value;
   };
 
   exports.cancel = function CancelFunction() {
@@ -142,8 +159,15 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
     };
 
     this.startAction = function (senseAction) {
-      this.reset();
-      $scope.currentSense = senseAction;
+      this.clear();
+      var redirectTo = Routes.getUrlForAction(senseAction);
+      if (redirectTo != null) {
+        $location.path(redirectTo);
+        $location.replace();
+      } else {
+        $scope.currentSense = senseAction;
+      }
+
     }
 
     this.showMenu = function () {

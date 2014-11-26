@@ -23,4 +23,16 @@ module SenseMacro
     end
   end
 
+  RSpec::Matchers.define :have_action_with_redirect_to do | action_name, params |
+    match do |base_sense|
+      base_sense.actions.any? do |sense_action|
+        sense_action.action == action_name && sense_action.have_redirect? && sense_action.get_extra(:path) == params[:path] && sense_action.get_extra(:path_params) == params[:params]
+      end
+    end
+    failure_message do |sense_action|
+      "expected that actions #{sense_action.actions.map(&:to_h).inspect} would have redirect"
+    end
+  end
+
+
 end
