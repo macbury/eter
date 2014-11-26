@@ -6,26 +6,13 @@ class ProjectsController < ApplicationController
 
   def index
     authorize! :index, Project
+    @projects = current_user.projects
 
-    if can?(:manage, :all)
-      @projects = Project.all
-    else
-      @projects = Project.with_role([:master, :developer], current_user)
-    end
-    
     respond_with(@projects)
   end
 
   def show
     respond_with(@project)
-  end
-
-  def new
-    @project = Project.new
-    respond_with(@project)
-  end
-
-  def edit
   end
 
   def create
@@ -51,6 +38,6 @@ class ProjectsController < ApplicationController
     end
 
     def project_params
-      params.require(:project).permit(:title, :slug)
+      params.require(:project).permit(:title)
     end
 end
