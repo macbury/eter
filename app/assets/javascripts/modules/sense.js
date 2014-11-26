@@ -187,7 +187,7 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
     };
 
     this.isShowingResults = function () {
-      return $scope.showResults || $scope.searchText.length > 0 || $scope.loading;
+      return $scope.showResults || $scope.searchText.length > 0 || $scope.loading || $scope.currentSense != null;
     };
 
     this.isLoading = function () {
