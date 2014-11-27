@@ -41,17 +41,33 @@ $sense-item-padding: 10px;
         padding: 0px;
         list-style: none;
 
+        &.grid  > [class*="col-"] {
+          padding:0;
+          a {
+            border-bottom: 0px;
+            text-align: center;
+            i {
+              margin: 10px 0px;
+              padding: 0px;
+              display: block;
+              font-size: 24px;
+            }
+            border-right: 1px solid #ddd;
+          }
+
+          &:last-child a {
+            border-right: 0px;
+          }
+        }
+
         li {
           &.loading {
             padding: $sense-item-padding;
           }
 
           &.selected a {
-            color: $navbar-inverse-color;
-            background: $brand-primary;
-            span {
-              color: $navbar-inverse-color;
-            }
+            background: lighten($brand-primary, 50%);
+
           }
 
           a {

@@ -55,3 +55,10 @@ modProject.controller("ProjectController", function ProjectController ($scope, $
     Browser.setTitle(project.title);
   });
 });
+
+modProject.directive("projectCard", function() {
+  return {
+    restrict: "E",
+    templateUrl: "projects/project_card.html"
+  }
+});

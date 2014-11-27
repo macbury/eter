@@ -130,8 +130,8 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
       this.reset();
       $scope.loading = true;
       SenseService.sense($scope.searchText).then(function( suggestions ) {
-        $scope.suggestions = suggestions;
         $scope.loading     = false;
+        $scope.suggestions = suggestions;
       }, function(error) {
         if (error == "error") {
           $scope.loading = false;

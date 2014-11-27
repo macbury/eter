@@ -4,8 +4,4 @@ div ng-controller="DashboardProjectsController as projectsController"
       | {{ 'projects.empty' | translate }}
   .row ng-repeat="rows in projects | partition:4:this"
     .col-md-3 ng-repeat="project in rows"
-      .panel.panel-primary
-        .panel-heading
-          a ng-href="{{ projectsController.projectUrl(project); }}"
-            | {{ project.title }}
-        .panel-body
+      project-card
