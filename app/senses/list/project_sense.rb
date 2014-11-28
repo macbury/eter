@@ -2,12 +2,14 @@ class ProjectSense < BaseSense
   CREATE_PROJECT_ACTION = "create_project_action"
   GOTO_PROJECT_ACTION   = "goto_project_action"
   def process
+    @goto_exact_match = false
+    propose_to_go_to_projects
+
     if context.have_project?
       propose_to_edit_project
-    else
+    elsif !@goto_exact_match
       propose_to_create_project
     end
-    propose_to_go_to_projects
   end
 
   protected
@@ -24,6 +26,11 @@ class ProjectSense < BaseSense
         action.redirect_to(:project, project_id: project.id)
         action.priority    = :normal
         action.description = project.title
+
+        if context.query.match(/#{Regexp.escape(project.title)}/i)
+          @goto_exact_match = true
+        end
+
         push(action)
       end
     end

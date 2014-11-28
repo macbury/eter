@@ -19,6 +19,7 @@
 //= require angular-loading-bar
 //= require angular-resource
 //= require angular-translate
+//= require angular-spinkit
 //= require_tree ./libs/
 //= require_tree ./modules/
 //= require eter

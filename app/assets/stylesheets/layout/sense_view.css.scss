@@ -27,6 +27,22 @@ $sense-item-padding: 10px;
   }
 
   .results-view {
+    form {
+      .inputs {
+        padding: 10px 20px;
+
+        & > .form-group:first-child {
+          margin-top: 1.5em;
+        }
+      }
+
+      .buttons input, .buttons button, .buttons a {
+        width: 50%;
+        float: left;
+        display: block;
+      }
+    }
+
     .result-group {
       margin-top: 10px;
       background: $input-bg;

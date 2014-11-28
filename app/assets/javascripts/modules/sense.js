@@ -77,7 +77,7 @@ senseMod.factory("SenseService", function($http, $q, $timeout, $rootScope) {
     sensePromise = $q.defer();
 
     if (query_text.length > 0) {
-      searchTimer  = $timeout(executeSearch, 500);
+      searchTimer  = $timeout(executeSearch, 200);
       query        = query_text;
     } else {
       sensePromise.reject("invalid");
@@ -89,7 +89,7 @@ senseMod.factory("SenseService", function($http, $q, $timeout, $rootScope) {
   return exports;
 });
 
-senseMod.directive("senseView", function SenseViewDirective($http, $location, SenseService, FlashFactory, Routes) {
+senseMod.directive("senseView", function SenseViewDirective($http, $location, SenseService, FlashFactory, Routes, $timeout) {
   function SenseViewController($scope) {
     $scope.suggestionIndex = 0;
     $scope.showResults = false;
@@ -107,6 +107,8 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
         } catch(e) {
 
         }
+      } else {
+        $scope.currentSense = null;
       }
     }
 
@@ -120,10 +122,6 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
       $scope.suggestions = [];
       $scope.showResults = false;
       $scope.currentSense = null;
-    }
-
-    this.actionToTemplate = function(senseAction) {
-      return "senses/actions/"+senseAction.name+".html";
     }
 
     this.search        = function() {
@@ -185,6 +183,17 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
       this.reset();
       SenseService.cancel();
     };
+
+    this.focus    = function() {
+      $timeout(function() {
+        $scope.$broadcast('queryInputFocus');
+      }, 100);
+    };
+
+    this.clearAndFocus = function() {
+      this.clear();
+      this.focus();
+    }
 
     this.isShowingResults = function () {
       return $scope.showResults || $scope.searchText.length > 0 || $scope.loading || $scope.currentSense != null;
@@ -261,6 +270,31 @@ senseMod.directive("senseGroupLoading", function() {
     templateUrl: "senses/group_loading.html",
     scope: {
       "isLoading": "&isLoading",
+    }
+  }
+});
+
+senseMod.directive("senseAction", function($compile) {
+  function SenseActionLink(scope, element, attrs) {
+    scope.$watch("senseAction", function(newVal, oldVal) {
+      var senseAction = scope.senseAction;
+      if (senseAction != null) {
+        var elementName = senseAction.action.replace(/_/g, "-");
+
+        element.html("<"+elementName+"></"+elementName+">").show();
+        $compile(element.contents())(scope);
+      } else {
+        element.hide();
+      }
+    });
+  };
+
+  return {
+    restrict: "E",
+    replace: true,
+    link: SenseActionLink,
+    scope: {
+      "senseAction": "=senseAction"
     }
   }
 });

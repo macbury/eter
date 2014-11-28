@@ -208,6 +208,8 @@ GEM
     rails-assets-angular-loading-bar (0.6.0)
     rails-assets-angular-mocks (1.3.3)
       rails-assets-angular (= 1.3.3)
+    rails-assets-angular-spinkit (0.3.3)
+      rails-assets-angular
     rails-assets-angular-translate (2.4.2)
     railties (4.1.8)
       actionpack (= 4.1.8)
@@ -343,6 +345,7 @@ DEPENDENCIES
   rails (= 4.1.8)
   rails-assets-angular-loading-bar
   rails-assets-angular-mocks
+  rails-assets-angular-spinkit
   rails-assets-angular-translate
   rolify
   rspec-rails

@@ -1,17 +1,17 @@
 .sense-view
-  .input-view
+  .input-view ng-hide="currentSense"
     i.fa.fa-bars.sense-icon.sense-open ng-click="senseCtrl.showMenu()" ng-hide="senseCtrl.isShowingResults()"
     i.fa.fa-close.sense-icon.sense-close ng-click="senseCtrl.clear()" ng-show="senseCtrl.isShowingResults()"
-    input.sense-input type="text" ng-model="searchText" placeholder="add story, search story" ng-keydown="senseCtrl.checkKeyDown($event)" ng-change="senseCtrl.search()"
+    input.sense-input type="text" ng-model="searchText" placeholder="add story, search story" ng-keydown="senseCtrl.checkKeyDown($event)" ng-change="senseCtrl.search()" focus-on="queryInputFocus"
   .results-view ng-show="senseCtrl.isShowingResults()"
     .result-group ng-show="currentSense"
-      | {{ currentSense }}
+      sense-action sense-action="currentSense"
     sense-group-loading is-loading="senseCtrl.isLoading()"
     .result-group.result-suggestions ng-show="senseCtrl.haveSuggestions()"
       ul
         li ng-repeat="suggestion in suggestions" ng-class="{selected: $index == suggestionIndex}"
           sense-action-link on-action-click="senseCtrl.startAction(suggestion)" on-redirect-click="senseCtrl.clear()" action="suggestion"
-    .result-group
+    .result-group  ng-hide="currentSense"
       ul.grid
         li.col-xs-4
           a href="#/projects" ng-click="senseCtrl.clear()"

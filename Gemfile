@@ -40,7 +40,7 @@ group :assets do
   gem 'angularjs-rails'
   gem 'rails-assets-angular-translate'
   gem 'rails-assets-angular-loading-bar'
-
+  gem 'rails-assets-angular-spinkit'
   gem "rails-assets-angular-mocks"
 end
 

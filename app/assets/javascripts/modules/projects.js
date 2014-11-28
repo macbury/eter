@@ -15,6 +15,21 @@ modProject.factory("ProjectResource", function($http, $q) {
     return deferred.promise;
   };
 
+  exports.create = function(project) {
+    var deferred = $q.defer();
+    $http.post("/projects", { project: project }).success(function(data, status, headers, config) {
+      deferred.resolve(data);
+    }).error(function(data, status, headers, config) {
+      var errors = {};
+      if (data != null && data.errors != null) {
+        errors = data.errors;
+      }
+      deferred.reject(errors);
+    });
+
+    return deferred.promise;
+  }
+
   exports.find = function(project_id) {
     var deferred = $q.defer();
     $http({ method: "GET", url: "/projects/"+project_id+".json" }).success(function(data, status, headers, config) {
@@ -55,6 +70,42 @@ modProject.controller("ProjectController", function ProjectController ($scope, $
     Browser.setTitle(project.title);
   });
 });
+
+modProject.directive("createProjectAction", function($timeout, ProjectResource) {
+
+  function CreateProjectController($scope) {
+    $scope.project = { title: $scope.senseAction.payload.title };
+    $timeout(function() {
+      $scope.$broadcast('titleFieldFocus');
+    }, 100);
+
+    this.isLoading = function () {
+      return $scope.loading;
+    }
+
+    this.create = function () {
+      $scope.loading = true;
+      ProjectResource.create($scope.project).then(function ProjectCreated(data) {
+        console.log(data);
+      }, function ProjectCreationError(errors) {
+        $.each(errors, function(field, errorFieldMessages) {
+          $scope.projectForm[field].$dirty = true;
+          $scope.projectForm[field].$setValidity(errorFieldMessages.join(", "), false);
+        });
+        $scope.loading = false;
+      });
+
+    }
+  }
+
+  return {
+    restrict: "E",
+    templateUrl: "senses/actions/create_project_sense.html",
+    controller: CreateProjectController,
+    controllerAs: "createProjectCtrl"
+  }
+});
+
 
 modProject.directive("projectCard", function() {
   return {

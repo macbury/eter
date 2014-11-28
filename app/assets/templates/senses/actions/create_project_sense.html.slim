@@ -1,6 +1,8 @@
-a
-  i.fa.fa-heart.action-icon
-  b
-    | {{ 'senses.'+suggestion.name+'.label' | translate }}
-  span
-    | {{ suggestion.payload.name }}
+form role="form" name="projectForm" ng-submit="createProjectCtrl.create()"
+  .main-inputs ng-hide="createProjectCtrl.isLoading()"
+    .inputs
+      text-input ng-model="project.title" placeholder="simple_form.labels.project.title" name="title"
+      text-input ng-model="project.partipicants" placeholder="simple_form.labels.project.partipicants" name="partipicants"
+    submit-cancel-buttons on-submit-click="createProjectCtrl.create()" ng-hide="createProjectCtrl.isLoading()"
+  .inputs ng-show="createProjectCtrl.isLoading()"
+    rotating-plane-spinner
