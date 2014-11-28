@@ -71,7 +71,7 @@ modProject.controller("ProjectController", function ProjectController ($scope, $
   });
 });
 
-modProject.directive("createProjectAction", function($timeout, ProjectResource) {
+modProject.directive("createProjectAction", function($timeout, ProjectResource, $location, Routes) {
 
   function CreateProjectController($scope) {
     $scope.project = { title: $scope.senseAction.payload.title };
@@ -86,11 +86,14 @@ modProject.directive("createProjectAction", function($timeout, ProjectResource) 
     this.create = function () {
       $scope.loading = true;
       ProjectResource.create($scope.project).then(function ProjectCreated(data) {
-        console.log(data);
+        $location.replace();
+        $location.url(Routes.projectUrl({project_id: data.id}));
+        $scope.$root.$broadcast("closeSenseMenu");
       }, function ProjectCreationError(errors) {
         $.each(errors, function(field, errorFieldMessages) {
           $scope.projectForm[field].$dirty = true;
-          $scope.projectForm[field].$setValidity(errorFieldMessages.join(", "), false);
+          $scope.projectForm[field].$setValidity('server', false);
+          $scope.projectForm[field].serverErrors = errorFieldMessages;
         });
         $scope.loading = false;
       });

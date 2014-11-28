@@ -98,6 +98,10 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
     $scope.suggestions = [];
     $scope.currentSense = null;
 
+    $scope.$on("closeSenseMenu", angular.bind(this, function() {
+      this.clearAndFocus();
+    }));
+
     this.loadActionFromUrl = function() {
       var action = $location.search()["action"];
       if (action != null) {

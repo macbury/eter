@@ -4,6 +4,7 @@ var uniqueId = 100;
 
 function TextInputLink(scope, element, attrs, ngModel) {
   var input = element.find("input, textarea");
+  var helpBlock = element.find(".help-block");
   uniqueId  += 1;
   scope.elementId = scope.name +"_"+uniqueId;
   function swapLabels() {
@@ -15,19 +16,26 @@ function TextInputLink(scope, element, attrs, ngModel) {
   }
 
   function updateErrors() {
-    // body...
+    if (ngModel.$invalid) {
+      helpBlock.text(ngModel.serverErrors.join(", ")).show();
+    } else {
+      helpBlock.hide();
+    }
   }
 
-  ngModel.$render = function() { swapLabels(); };
-
-  scope.$watch(ngModel, function() {
-    input.val(ngModel.$viewValue);
-    updateErrors();
+  ngModel.$render = function() {
     swapLabels();
+    updateErrors();
+  };
+
+  scope.$watch(function() {
+    input.val(ngModel.$viewValue);
+    ngModel.$render();
   });
 
   input.on('keyup change', function () {
     ngModel.$setViewValue(input.val());
+    //scope.$apply(function () { ngModel.$setValidity('server', true); });
     ngModel.$render();
   });
 }
@@ -52,8 +60,9 @@ modFloatLabel.directive("textAreaInput", function() {
     },
     template: [
     '<div class="form-group float-label-control">',
-    '<textarea type="text" name="{{ elementId }}" id="{{ elementId }}" class="form-control" placeholder="{{ placeholder | translate }}"></textarea>',
-    '<label for="{{ elementId }}">{{ placeholder | translate }}</label>',
+      '<textarea type="text" name="{{ elementId }}" id="{{ elementId }}" class="form-control" placeholder="{{ placeholder | translate }}"></textarea>',
+      '<label for="{{ elementId }}">{{ placeholder | translate }}</label>',
+      '<p class="help-block"></p>',
     '</div>'
     ].join("\n")
   }
@@ -74,6 +83,7 @@ modFloatLabel.directive("textInput", function() {
       '<div class="form-group float-label-control">',
         '<input type="text" name="{{ name }}" id="{{ elementId }}" class="form-control" placeholder="{{ placeholder | translate }}" focus-on="{{ name + \'FieldFocus\' }}">',
         '<label for="{{ name }}">{{ placeholder | translate }}</label>',
+        '<p class="help-block"></p>',
       '</div>'
     ].join("\n")
   }
