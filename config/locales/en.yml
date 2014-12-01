@@ -8,6 +8,7 @@ en:
   projects:
     header: "My projects"
     empty: "You are not assigned to any project."
+    not_found: "Could not find project."
   sense:
     loading: "Working... Please wait..."
     settings:
@@ -31,6 +32,7 @@ en:
     notice: Notice
     internal_server_error: "Internal server error occured while performing request!"
     unauthorized_access: "Cannot access this resource."
+    not_found: "Could not find resource."
   simple_form:
     buttons:
       save: "Save"

@@ -8,7 +8,7 @@ modProject.factory("ProjectResource", function($http, $q) {
     $http({ method: "GET", url: "/projects.json" }).success(function(data, status, headers, config) {
       deferred.resolve(data);
     }).error(function(data, status, headers, config) {
-      deferred.reject();
+      deferred.reject(status);
       //show error
     });
 
@@ -35,7 +35,7 @@ modProject.factory("ProjectResource", function($http, $q) {
     $http({ method: "GET", url: "/projects/"+project_id+".json" }).success(function(data, status, headers, config) {
       deferred.resolve(data);
     }).error(function(data, status, headers, config) {
-      deferred.reject();
+      deferred.reject(status);
       //show error
     });
 
@@ -46,13 +46,15 @@ modProject.factory("ProjectResource", function($http, $q) {
 });
 
 
-modProject.controller("DashboardProjectsController", function DashboardProjectsController ($scope, $rootScope, ProjectResource, Browser, Routes) {
+modProject.controller("DashboardProjectsController", function DashboardProjectsController ($scope, $rootScope, ProjectResource, Browser, Routes, FlashFactory) {
   $scope.projects = null;
   Browser.setLocalizedTitle("projects.header");
   this.isEmpty = function() { return $scope.projects != null && $scope.projects.length == 0; }
 
   ProjectResource.all().then(function(projects) {
     $scope.projects = projects;
+  }, function (status) {
+    FlashFactory.handleHttpStatusError(status);
   });
 
   this.projectUrl = function(projectJson) {
@@ -60,7 +62,7 @@ modProject.controller("DashboardProjectsController", function DashboardProjectsC
   }
 });
 
-modProject.controller("ProjectController", function ProjectController ($scope, $rootScope, ProjectResource, Browser, $routeParams, SenseService) {
+modProject.controller("ProjectController", function ProjectController ($scope, $rootScope, ProjectResource, Browser, $routeParams, SenseService, $location, FlashFactory) {
   $scope.project = null;
 
   var project_id = $routeParams['id'];
@@ -68,6 +70,9 @@ modProject.controller("ProjectController", function ProjectController ($scope, $
   ProjectResource.find(project_id).then(function(project) {
     $scope.project = project;
     Browser.setTitle(project.title);
+  }, function (status) {
+    $location.path("/projects");
+    FlashFactory.handleHttpStatusError(status);
   });
 });
 
@@ -75,6 +80,8 @@ modProject.directive("createProjectAction", function($timeout, ProjectResource, 
 
   function CreateProjectController($scope) {
     $scope.project = { title: $scope.senseAction.payload.title };
+    $scope.loading = false;
+
     $timeout(function() {
       $scope.$broadcast('titleFieldFocus');
     }, 100);

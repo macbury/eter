@@ -3,6 +3,33 @@ var flashMod = angular.module("modFlash", []);
 flashMod.factory('FlashFactory', function FlashFactory ($translate) {
   var exports = {};
 
+  exports.internalServerError = function() {
+    this.showLocalized("error", "flashes.internal_server_error");
+  };
+
+  exports.unauthorizedError = function() {
+    this.showLocalized("error", "flashes.unauthorized_access");
+  };
+
+  exports.notFoundError = function() {
+    this.showLocalized("error", "flashes.not_found");
+  };
+
+  exports.undefinedStatus = function(status) {
+    this.show("error", "Could not handle status: " + status);
+  };
+
+  exports.handleHttpStatusError = function (status) {
+    if (status == 500) {
+      this.internalServerError();
+    } else if (status == 422) {
+      this.unauthorizedError();
+    } else if (status == 404) {
+      this.notFoundError();
+    } else {
+      this.undefinedStatus(status);
+    }
+  }
 
   exports.showLocalized = function (type, key) {
     if(type == "alert") {
