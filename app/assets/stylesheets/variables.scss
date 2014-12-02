@@ -774,7 +774,7 @@ $badge-border-radius:         10px;
 $breadcrumb-padding-vertical:   8px;
 $breadcrumb-padding-horizontal: 15px;
 //** Breadcrumb background color
-$breadcrumb-bg:                 $gray;
+$breadcrumb-bg:                 darken($gray-darker, 3%);
 //** Breadcrumb text color
 $breadcrumb-color:              $text-color;
 //** Text color of current page in the breadcrumb

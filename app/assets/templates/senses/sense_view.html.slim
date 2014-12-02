@@ -13,17 +13,12 @@
           sense-action-link on-action-click="senseCtrl.startAction(suggestion)" on-redirect-click="senseCtrl.clear()" action="suggestion"
     .result-group  ng-hide="currentSense"
       ul.grid
-        li.col-xs-4
-          a href="#/projects" ng-click="senseCtrl.clear()"
-            i.fa.fa-th-large
-            b
-              | {{ "projects.header" | translate }}
-        li.col-xs-4
+        li.col-xs-6
           a href="/users/sign_out"  ng-click="senseCtrl.clear()"
             i.fa.fa-cogs
             b
               | {{ "sense.settings.label" | translate }}
-        li.col-xs-4
+        li.col-xs-6
           a href=Rails.application.routes.url_helpers.destroy_user_session_path data-method="delete" ng-click="senseCtrl.clear()"
             i.fa.fa-key
             b

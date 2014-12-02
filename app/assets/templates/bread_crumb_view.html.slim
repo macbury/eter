@@ -1,0 +1,8 @@
+ol.breadcrumb
+  li
+    a href="#/projects"
+      i.fa.fa-home
+      | {{ "breadcrumb.home" | translate }}
+  li ng-repeat="item in breadcrumbCtrl.getItems()"
+    a ng-href="{{ item.url }}"
+      | {{ item.title }}

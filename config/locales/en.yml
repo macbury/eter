@@ -1,5 +1,7 @@
 
 en:
+  breadcrumb:
+    home: "Home"
   senses:
     create_project_action:
       label: "Create a new project: "
@@ -39,4 +41,5 @@ en:
       cancel: "Cancel"
     labels:
       project:
+        members: "Members"
         title: "Project title"

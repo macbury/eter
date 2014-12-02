@@ -1,4 +1,5 @@
-var eterApp = angular.module("eterApp", [ "ngAnimate", "modSenseAction", "modBrowser", "modFlash", "pascalprecht.translate", "modSense", "ngRoute", "modProject", 'angular-loading-bar', 'mopInclude', 'modActivities', 'modRoute', "modFloatLabel", "angular-spinkit"]);
+var eterApp = angular.module("eterApp", [ "ngAnimate", "modSenseAction", "modBrowser", "modFlash", "pascalprecht.translate", "modSense", "ngRoute", "modProject", 'angular-loading-bar', 'mopInclude', 'modActivities', 'modRoute', "modFloatLabel", "angular-spinkit", "modBreadcrumb", "modRails"]);
+var Rails   = {};
 
 eterApp.factory('railsLocalesLoader', function RailsLocalesLoader($http) {
   return function(options) {
@@ -11,13 +12,11 @@ eterApp.factory('railsLocalesLoader', function RailsLocalesLoader($http) {
 });
 
 eterApp.config(function Config($provide, $httpProvider, $translateProvider, BrowserProvider) {
-  var Rails = JSON.parse(angular.element(document.querySelector('meta[name=rails]')).attr('content'));
-  eterApp.constant('Rails', Rails);
   BrowserProvider.setAppName("Eter");
-
   $httpProvider.defaults.headers.common['X-CSRF-Token'] = angular.element(document.querySelector('meta[name=csrf-token]')).attr('content');
 
   $provide.factory('railsAssetsInterceptor', function RailsAssetsIntercreptor($cacheFactory) {
+
     return {
       request: function RailsAssetsIntercreptorRequest (config) {
         var assetUrl = Rails.templates[config.url];
@@ -42,5 +41,13 @@ eterApp.config(function Config($provide, $httpProvider, $translateProvider, Brow
   }
 
   $translateProvider.useLoader('railsLocalesLoader');
-  $translateProvider.preferredLanguage('en');
+  $translateProvider.preferredLanguage(Rails.locale.locale);
+});
+
+$.getJSON("/angular.json", function(resp) {
+  Rails = resp;
+
+  angular.element(document).ready(function() {
+    angular.bootstrap(document, ['eterApp']);
+  });
 });

@@ -1,10 +1,9 @@
 doctype html
-html ng-app="eterApp"
+html
   head
     title app-title=true Eter
     = stylesheet_link_tag    'application', media: 'all'
     = csrf_meta_tags
-    = env_tag
   body
     = yield
     = render_flashes

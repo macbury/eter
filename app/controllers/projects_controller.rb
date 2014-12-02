@@ -11,21 +11,25 @@ class ProjectsController < ApplicationController
   end
 
   def show
+
     respond_with(@project)
   end
 
   def create
     @project = Project.new(project_params)
+    authorize! :create, @project
     @project.save
     respond_with(@project)
   end
 
   def update
+    authorize! :updat, @project
     @project.update(project_params)
     respond_with(@project)
   end
 
   def destroy
+    authorize! :destroy, @project
     @project.destroy
     respond_with(@project)
   end

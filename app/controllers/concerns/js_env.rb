@@ -10,7 +10,15 @@ module JsEnv
   def js_env
     data = {
       env: Rails.env,
-      templates: templates
+      templates: templates,
+      locale: {
+        default: I18n.default_locale,
+        locale: I18n.locale
+      }
     }
+  end
+
+  def js_env_etag
+    Digest::SHA256.hexdigest(js_env.to_json)
   end
 end

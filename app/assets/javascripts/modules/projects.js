@@ -62,7 +62,7 @@ modProject.controller("DashboardProjectsController", function DashboardProjectsC
   }
 });
 
-modProject.controller("ProjectController", function ProjectController ($scope, $rootScope, ProjectResource, Browser, $routeParams, SenseService, $location, FlashFactory) {
+modProject.controller("ProjectController", function ProjectController ($scope, $rootScope, ProjectResource, Browser, $routeParams, SenseService, $location, FlashFactory, Breadcrumb, Routes) {
   $scope.project = null;
 
   var project_id = $routeParams['id'];
@@ -70,6 +70,7 @@ modProject.controller("ProjectController", function ProjectController ($scope, $
   ProjectResource.find(project_id).then(function(project) {
     $scope.project = project;
     Browser.setTitle(project.title);
+    Breadcrumb.addItem(project.title, Routes.projectUrl({ project_id: project.id }));
   }, function (status) {
     $location.path("/projects");
     FlashFactory.handleHttpStatusError(status);
@@ -93,7 +94,6 @@ modProject.directive("createProjectAction", function($timeout, ProjectResource, 
     this.create = function () {
       $scope.loading = true;
       ProjectResource.create($scope.project).then(function ProjectCreated(data) {
-        $location.replace();
         $location.url(Routes.projectUrl({project_id: data.id}));
         $scope.$root.$broadcast("closeSenseMenu");
       }, function ProjectCreationError(errors) {
