@@ -2,42 +2,34 @@ var modFloatLabel = angular.module("modFloatLabel", []);
 
 var uniqueId = 100;
 
-function TextInputLink(scope, element, attrs, ngModel) {
+function TextInputLink(scope, element, attrs, ctrls) {
   var input = element.find("input, textarea");
-  var helpBlock = element.find(".help-block");
-  uniqueId  += 1;
-  scope.elementId = scope.name +"_"+uniqueId;
-  function swapLabels() {
-    if (ngModel.$isEmpty(ngModel.$viewValue)) {
-      input.addClass("empty");
+
+  function swapLabels(text) {
+    if (text == null || text.length == 0 || typeof(text) != "string") {
+      text = input.val();
+    }
+    if (text.length == 0) {
+      element.addClass("empty");
     } else {
-      input.removeClass("empty");
+      element.removeClass("empty");
     }
   }
 
-  function updateErrors() {
-    if (ngModel.$invalid) {
-      helpBlock.text(ngModel.serverErrors.join(", ")).show();
+  scope.getErrorClass = function() {
+    if (scope.errors == null) {
+      return "";
     } else {
-      helpBlock.hide();
+      return "ng-invalid";
     }
   }
 
-  ngModel.$render = function() {
-    swapLabels();
-    updateErrors();
-  };
-
-  scope.$watch(function() {
-    input.val(ngModel.$viewValue);
-    ngModel.$render();
+  input.on("update:label", function(ev, text) {
+    swapLabels(text);
   });
+  input.on("change keyup blur focus input", swapLabels);
 
-  input.on('keyup change', function () {
-    ngModel.$setViewValue(input.val());
-    //scope.$apply(function () { ngModel.$setValidity('server', true); });
-    ngModel.$render();
-  });
+  setTimeout(swapLabels, 100);
 }
 
 modFloatLabel.directive('focusOn', function() {
@@ -49,42 +41,73 @@ modFloatLabel.directive('focusOn', function() {
   };
 });
 
-modFloatLabel.directive("textAreaInput", function() {
+modFloatLabel.directive("floatLabel", function() {
   return {
-    restrict: "E",
+    restrict: "EA",
+    transclude: true,
     replace: true,
-    require: "ngModel",
     link: TextInputLink,
     scope: {
       "placeholder": "@placeholder",
+      "for": "@for",
+      "errors": "=errors"
     },
     template: [
-    '<div class="form-group float-label-control">',
-      '<textarea type="text" name="{{ elementId }}" id="{{ elementId }}" class="form-control" placeholder="{{ placeholder | translate }}"></textarea>',
-      '<label for="{{ elementId }}">{{ placeholder | translate }}</label>',
-      '<p class="help-block"></p>',
+    '<div class="form-group float-label-control" ng-class="getErrorClass()">',
+      '<ng-transclude></ng-transclude>',
+      '<label for="{{ for }}">{{ placeholder | translate }}</label>',
+      '<p class="help-block-error" ng-show="errors">{{ errors.join(", ") }}</p>',
     '</div>'
     ].join("\n")
   }
 });
 
-modFloatLabel.directive("textInput", function() {
+
+modFloatLabel.directive("autocompleteInput", function() {
+  function TokenLink(scope, element, attrs, ngModel) {
+    var input = element.find("input");
+    input.on('tokenfield:createtoken', function (e) {
+      var data = e.attrs.value.split('|')
+      e.attrs.value = data[1] || data[0]
+      e.attrs.label = data[1] ? data[0] + ' (' + data[1] + ')' : data[0]
+    })
+
+    .on('tokenfield:createdtoken', function (e) {
+      // Über-simplistic e-mail validation
+      var re = /\S+@\S+\.\S+/
+      var valid = re.test(e.attrs.value)
+      if (!valid) {
+        $(e.relatedTarget).addClass('invalid')
+      }
+    })
+
+    .on('tokenfield:edittoken', function (e) {
+      if (e.attrs.label !== e.attrs.value) {
+        var label = e.attrs.label.split(' (')
+        e.attrs.value = label[0] + '|' + e.attrs.value
+      }
+    })
+
+    .on('tokenfield:removedtoken', function (e) {
+      alert('Token removed! Token value was: ' + e.attrs.value)
+    })
+
+    input.tokenfield({
+      autocomplete: {
+        minLength: 2,
+        source: '/members',
+        delay: 300
+      },
+      showAutocompleteOnFocus: true
+    });
+
+    element.find("input").on("change keyup input", function() {
+      scope.$broadcast("update:label");
+    })
+  }
 
   return {
-    restrict: "E",
-    replace: true,
-    require: "ngModel",
-    link: TextInputLink,
-    scope: {
-      "placeholder": "@placeholder",
-      "name": "@name"
-    },
-    template: [
-      '<div class="form-group float-label-control">',
-        '<input type="text" name="{{ name }}" id="{{ elementId }}" class="form-control" placeholder="{{ placeholder | translate }}" focus-on="{{ name + \'FieldFocus\' }}">',
-        '<label for="{{ name }}">{{ placeholder | translate }}</label>',
-        '<p class="help-block"></p>',
-      '</div>'
-    ].join("\n")
+    restrict: "A",
+    link: TokenLink
   }
-});
+})

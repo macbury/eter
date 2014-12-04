@@ -77,10 +77,10 @@ modProject.controller("ProjectController", function ProjectController ($scope, $
   });
 });
 
-modProject.directive("createProjectAction", function($timeout, ProjectResource, $location, Routes) {
+modProject.directive("createProjectAction", function($timeout, ProjectResource, $location, Routes, FormError) {
 
   function CreateProjectController($scope) {
-    $scope.project = { title: $scope.senseAction.payload.title };
+    $scope.project = { title: $scope.senseAction.payload.title, members_emails: "" };
     $scope.loading = false;
 
     $timeout(function() {
@@ -97,14 +97,9 @@ modProject.directive("createProjectAction", function($timeout, ProjectResource, 
         $location.url(Routes.projectUrl({project_id: data.id}));
         $scope.$root.$broadcast("closeSenseMenu");
       }, function ProjectCreationError(errors) {
-        $.each(errors, function(field, errorFieldMessages) {
-          $scope.projectForm[field].$dirty = true;
-          $scope.projectForm[field].$setValidity('server', false);
-          $scope.projectForm[field].serverErrors = errorFieldMessages;
-        });
+        FormError.applyToForm(errors, $scope.projectForm);
         $scope.loading = false;
       });
-
     }
   }
 
@@ -121,5 +116,75 @@ modProject.directive("projectCard", function() {
   return {
     restrict: "E",
     templateUrl: "projects/project_card.html"
+  }
+});
+
+modProject.directive("projectTitleInput", function() {
+  return {
+    restrict: "E",
+    replace: false,
+    template: [
+    '<float-label errors="projectForm.title.serverErrors" placeholder="simple_form.labels.project.title" for="project_title" name="title">',
+      '<input type="text" name="title" id="project_title" class="form-control" focus-on="projectTitleFieldFocus" ng-model="project.title" autocomplete="off" />',
+    '</float-label>'
+    ].join("\n")
+  }
+});
+
+modProject.directive("projectScm", function() {
+  return {
+    restrict: "E",
+    replace: false,
+    template: [
+      '<float-label errors="projectForm.scm.serverErrors" placeholder="simple_form.labels.project.title" for="project_title" name="title">',
+        '<input type="text" name="title" id="project_title" class="form-control" focus-on="projectTitleFieldFocus" ng-model="project.title" autocomplete="off" />',
+      '</float-label>'
+    ].join("\n")
+  }
+});
+
+modProject.directive("projectMembersInput", function() {
+  function LinkMembersAutocomplete(scope, element, attrs) {
+    var input = element.find("input");
+
+    input.on('tokenfield:removedtoken', function (e) {
+      setTimeout(function() {
+        input.trigger("update:label");
+      }, 100)
+    });
+
+    input.on('tokenfield:createdtoken', function (e) {
+      var re = /([a-z0-9_\-\.]+@[a-z0-9_\-\.]+\.[a-z0-9_\-\.]+)/
+      var valid = re.test(e.attrs.value)
+      if (!valid) {
+        $(e.relatedTarget).addClass('invalid')
+      }
+    })
+
+    input.tokenfield({
+      autocomplete: {
+        minLength: 2,
+        source: '/members',
+        delay: 300
+      },
+      showAutocompleteOnFocus: true
+    });
+
+
+    element.find(".token-input").on("change keyup input blur", function() {
+      input.trigger("update:label", $(this).val());
+    });
+  }
+
+  return {
+    restrict: "E",
+    replace: false,
+    link: LinkMembersAutocomplete,
+    template: [
+    '<float-label errors="projectForm.members.serverErrors" ng-model="project.member_emails" placeholder="simple_form.labels.project.members" for="project_members" name="members_emails">',
+      '<input type="text" name="members_emails" id="project_members" class="form-control" focus-on="projectMembersFieldFocus" ng-model="project.members_emails" autocomplete="off" />',
+      '<p class="help-block">{{ "simple_form.hints.project.members" | translate }}</p>',
+    '</float-label>'
+    ].join("\n")
   }
 });

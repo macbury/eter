@@ -1,14 +1,8 @@
-form role="form" name="projectForm" ng-submit="createProjectCtrl.create()"
+form role="form" name="projectForm" ng-submit="createProjectCtrl.create()" novalidate="novalidate"
   .main-inputs ng-hide="createProjectCtrl.isLoading()"
     .inputs
-      text-input ng-model="project.title" placeholder="simple_form.labels.project.title" name="title"
-      .form-group.float-label-control
-        select multiple="multiple"
-          option Macbury
-          option Wiking
-          option Slawek
-
-      text-input ng-model="project.members" placeholder="simple_form.labels.project.members" name="members"
+      project-title-input
+      project-members-input
     submit-cancel-buttons on-submit-click="createProjectCtrl.create()" ng-hide="createProjectCtrl.isLoading()"
   .inputs ng-show="createProjectCtrl.isLoading()"
     rotating-plane-spinner

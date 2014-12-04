@@ -3,9 +3,8 @@ Rails.application.routes.draw do
     resources :projects
     get "/angular" => "angular#show"
     post "/sense" => "sense#create", as: :sense
+    get "/members" => "members#show"
   end
-
-
 
   devise_for :users
 

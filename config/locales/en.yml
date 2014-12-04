@@ -43,3 +43,6 @@ en:
       project:
         members: "Members"
         title: "Project title"
+    hints:
+      project:
+        members: "Search for users in system, or type email to invite them"

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141124144454) do
+ActiveRecord::Schema.define(version: 20141202142639) do
 
   create_table "projects", force: true do |t|
     t.string   "title"
@@ -46,6 +46,8 @@ ActiveRecord::Schema.define(version: 20141124144454) do
     t.datetime "locked_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "first_name",                          null: false
+    t.string   "last_name",                           null: false
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

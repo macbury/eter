@@ -18,7 +18,9 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
     authorize! :create, @project
-    @project.save
+    if @project.save
+      @project.add_master!(current_user)
+    end
     respond_with(@project)
   end
 

@@ -29,14 +29,20 @@ $sense-item-padding: 10px;
   .results-view {
     form {
       .inputs {
-        padding: 10px 20px;
+        padding: 30px 20px;
 
         & > .form-group:first-child {
           margin-top: 1.5em;
         }
 
-        .help-block {
+        .help-block-error {
           color: $state-danger-bg;
+          margin-bottom: 0px;
+        }
+
+        .help-block {
+          color: #666;
+          font-style: italic;
           margin-bottom: 0px;
         }
       }

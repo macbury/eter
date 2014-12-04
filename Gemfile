@@ -21,6 +21,7 @@ gem "faye", require: false
 group :auth do
   gem "rolify"
   gem "devise"
+  #gem 'devise_invitable', '~> 1.3.4'
   gem "cancan"
 end
 
@@ -42,6 +43,7 @@ group :assets do
   gem 'rails-assets-angular-loading-bar'
   gem 'rails-assets-angular-spinkit'
   gem "rails-assets-angular-mocks"
+  gem 'jquery-ui-rails'
 end
 
 group :api do
