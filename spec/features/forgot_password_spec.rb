@@ -8,7 +8,7 @@ feature "Forgot password" do
     fill_in "Email", with: @user.email
     click_button "Send me reset password instructions"
 
-    expect(ActionMailer::Base.deliveries.first.to).to eq(@user.email)
+    expect(ActionMailer::Base.deliveries.first.to).to include(@user.email)
 
     expect(page).to have_text("You will receive an email with instructions on how to reset your password in a few minutes.")
   end

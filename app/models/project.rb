@@ -54,9 +54,7 @@ class Project < ActiveRecord::Base
 
         emails.each do |email|
           user = User.find_or_initialize_by(email: email)
-          if user.new_record?
-            user.save
-          end
+          user.invite! if user.new_record?
 
           add_developer!(user)
         end
