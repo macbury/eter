@@ -38,7 +38,6 @@ class Project < ActiveRecord::Base
     user.add_role ROLE_DEVELOPER, self
   end
 
-
   protected
 
     def assign_members!
@@ -53,9 +52,7 @@ class Project < ActiveRecord::Base
         end.compact
 
         emails.each do |email|
-          user = User.find_or_initialize_by(email: email)
-          user.invite! if user.new_record?
-
+          user = User.invite!(email: email)
           add_developer!(user)
         end
       end

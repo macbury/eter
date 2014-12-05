@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
   validates :first_name, :last_name, presence: true, on: :update
 
   scope :by_query, -> (query) { where("last_name LIKE :query OR first_name LIKE :query OR email LIKE :query", query: query+"%") }
-
+  scope :by_email, -> (email) { where(email: email) }
   def full_name
     [first_name, last_name].join(" ")
   end

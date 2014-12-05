@@ -488,7 +488,9 @@
 
           // Create token
           if (this.$input.is(document.activeElement) && this.$input.val().length || this.$input.data('edit')) {
-            return this.createTokensFromInput(e, this.$input.data('edit'));
+            e.preventDefault();
+            this.createTokensFromInput(e, this.$input.data('edit'));
+            return false;
           }
 
           // Edit token

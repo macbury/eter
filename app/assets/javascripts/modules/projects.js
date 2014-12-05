@@ -89,7 +89,7 @@ modProject.directive("createProjectAction", function($timeout, ProjectResource, 
 
     this.isLoading = function () {
       return $scope.loading;
-    }
+    };
 
     this.create = function () {
       $scope.loading = true;

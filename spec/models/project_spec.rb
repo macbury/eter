@@ -21,7 +21,9 @@ RSpec.describe Project, :type => :model do
     user    = attributes_for(:user)
     project.members_emails = user[:email]
     project.save
-
     expect(project.members.map(&:email)).to include(user[:email])
+
+    user    = User.by_email(user[:email]).first
+    expect(user.invitation_token).to be_present
   end
 end
