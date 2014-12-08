@@ -1,4 +1,8 @@
 $project_card_content_height: 72px;
+.row:last-child .project-card {
+  //margin-bottom: 0px !important;
+}
+
 .project-card {
   margin-bottom: 30px;
   .project-header {
@@ -25,12 +29,13 @@ $project_card_content_height: 72px;
     .project-info {
       text-align: center;
       vertical-align: middle;
+      font-size: 14px;
       min-height: $project_card_content_height;
       .fa {
         margin-right: 5px;
       }
       .large {
-        font-size: 20px;
+        font-size: 18px;
         display: block;
         margin-top: 15px;
       }
