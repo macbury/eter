@@ -8,6 +8,6 @@ RSpec.describe CreateAdmin do
 
     expect(@create_admin.user).not_to be_new_record
     expect(@create_admin.user.email).to eq(Figaro.env.admin_email)
-    expect(@create_admin.user.has_role?(:admin)).to be_truthy
+    expect(@create_admin.user).to be_admin
   end
 end

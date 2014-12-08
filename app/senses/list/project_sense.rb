@@ -19,7 +19,7 @@ class ProjectSense < BaseSense
     end
 
     def propose_to_go_to_projects
-      projects_go_to = context.current_user.projects.by_title(context.query).except_project(context.current_project)
+      projects_go_to = Project.by_user(context.current_user).by_title(context.query).except_project(context.current_project)
       projects_go_to.each do |project|
         action = SenseAction.new(GOTO_PROJECT_ACTION)
         action.put_extra(:title, project.title)

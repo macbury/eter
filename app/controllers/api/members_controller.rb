@@ -1,5 +1,4 @@
-class MembersController < ApplicationController
-  before_action :authenticate_user!
+class Api::MembersController < ApiController
 
   def show
     @user = User.by_query(params.require(:term))

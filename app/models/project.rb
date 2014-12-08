@@ -1,35 +1,21 @@
 class Project < ActiveRecord::Base
-  resourcify
   validates :title, presence: true, uniqueness: true
 
-  ROLE_MASTER    = :master
-  ROLE_DEVELOPER = :developer
-  ROLE_ADMIN     = :admin
-  ROLES          = [ROLE_MASTER, ROLE_DEVELOPER, ROLE_DEVELOPER]
-  EMAIL_REGEXP   = /([a-z0-9_\-\.]+@[a-z0-9_\-\.]+\.[a-z0-9_\-\.]+)/i
+  has_many :members, dependent: :destroy, as: :source
+  has_many :users, through: :members
 
   attr_accessor :members_emails
 
   scope :by_title,        -> (title) { where("title LIKE :title", title: title+"%") }
   scope :except_project,  -> (project) { where("projects.id != :project_id", project_id: project.id) if project }
-  scope :by_user,         -> (user) { user.admin? ? all : with_role([ROLE_MASTER, ROLE_DEVELOPER, ROLE_ADMIN], user) }
+  scope :by_user,         -> (user) { user.admin? ? all : where("members.user_id = :user_id", user_id: user.id).joins(:members) }
 
+  before_create :generate_colors!
   after_create :assign_members!
-
-  def members_ids
-    roles.map(&:user_ids).flatten
-  end
-
-  def members
-    if @members.nil?
-      @members ||= User.find(members_ids)
-    end
-    @members
-  end
 
   def members_emails
     unless @members_emails
-      @members_emails = members.map(&:full_info).join(", ")
+      @members_emails = users.map(&:full_info).join(", ")
     end
     @members_emails
   end
@@ -38,12 +24,9 @@ class Project < ActiveRecord::Base
     @members_emails = nme.split(", ")
   end
 
-  def add_master!(user)
-    user.add_role ROLE_MASTER, self
-  end
-
-  def add_developer!(user)
-    user.add_role ROLE_DEVELOPER, self
+  def generate_colors!
+    background_generator = ColorGenerator.new saturation: 0.2, value: 0.2, seed: self.title.sum
+    self.color_hex = background_generator.create_hex
   end
 
   protected
@@ -52,7 +35,7 @@ class Project < ActiveRecord::Base
       if @members_emails
         emails = @members_emails.map do |email|
           email.strip!
-          if email.match(EMAIL_REGEXP)
+          if email.match(User::EMAIL_REGEXP)
             $1
           else
             nil
@@ -61,7 +44,7 @@ class Project < ActiveRecord::Base
 
         emails.each do |email|
           user = User.invite!(email: email)
-          add_developer!(user)
+          user.assign_developer!(self)
         end
       end
     end

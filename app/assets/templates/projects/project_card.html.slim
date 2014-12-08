@@ -1,6 +1,7 @@
-.panel.panel-primary
+div style="background: \#{{ project.color_hex }};"
   .panel-heading
     a ng-href="{{ projectsController.projectUrl(project); }}"
       | {{ project.title }}
   .panel-body
-    
+    ul
+      li ng-repeat="user in project.members" {{ user.initials }}

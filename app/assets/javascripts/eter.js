@@ -44,7 +44,7 @@ eterApp.config(function Config($provide, $httpProvider, $translateProvider, Brow
   $translateProvider.preferredLanguage(Rails.locale.locale);
 });
 
-$.getJSON("/angular.json", function(resp) {
+$.getJSON("/api/angular.json", function(resp) {
   Rails = resp;
 
   angular.element(document).ready(function() {

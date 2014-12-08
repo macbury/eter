@@ -43,6 +43,6 @@ RSpec.configure do |config|
   end
 
   config.use_transactional_fixtures = true
-
+  config.render_views = true
   config.infer_spec_type_from_file_location!
 end

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe ProjectsController, type: :controller do
+RSpec.describe Api::ProjectsController, type: :controller do
 
   context "as guest" do
     as_guest

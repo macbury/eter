@@ -44,7 +44,7 @@ feature "Dashboard", js: true do
     end
 
     scenario "after typing in sense menu i should see error message for any internal error on server side" do
-      allow_any_instance_of(SenseController).to receive(:create).and_return { raise Exception.new }
+      allow_any_instance_of(Api::SenseController).to receive(:create).and_return { raise Exception.new }
       visit root_path
       find(".sense-input").set("bla bla bla")
 

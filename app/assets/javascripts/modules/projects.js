@@ -1,11 +1,11 @@
 var modProject = angular.module("modProject", ["modPartition", "modSense"]);
 
-modProject.factory("ProjectResource", function($http, $q) {
+modProject.factory("ProjectResource", function($http, $q, FlashFactory) {
   var exports  = {};
 
   exports.all = function() {
     var deferred = $q.defer();
-    $http({ method: "GET", url: "/projects.json" }).success(function(data, status, headers, config) {
+    $http({ method: "GET", url: "/api/projects.json" }).success(function(data, status, headers, config) {
       deferred.resolve(data);
     }).error(function(data, status, headers, config) {
       deferred.reject(status);
@@ -17,14 +17,19 @@ modProject.factory("ProjectResource", function($http, $q) {
 
   exports.create = function(project) {
     var deferred = $q.defer();
-    $http.post("/projects", { project: project }).success(function(data, status, headers, config) {
+    $http.post("/api/projects", { project: project }).success(function(data, status, headers, config) {
       deferred.resolve(data);
     }).error(function(data, status, headers, config) {
-      var errors = {};
-      if (data != null && data.errors != null) {
-        errors = data.errors;
+      if (status != 200) {
+        FlashFactory.handleHttpStatusError(status);
+        deferred.reject([]);
+      } else {
+        var errors = {};
+        if (data != null && data.errors != null) {
+          errors = data.errors;
+        }
+        deferred.reject(errors);
       }
-      deferred.reject(errors);
     });
 
     return deferred.promise;
@@ -32,7 +37,7 @@ modProject.factory("ProjectResource", function($http, $q) {
 
   exports.find = function(project_id) {
     var deferred = $q.defer();
-    $http({ method: "GET", url: "/projects/"+project_id+".json" }).success(function(data, status, headers, config) {
+    $http({ method: "GET", url: "/api/projects/"+project_id+".json" }).success(function(data, status, headers, config) {
       deferred.resolve(data);
     }).error(function(data, status, headers, config) {
       deferred.reject(status);
@@ -77,7 +82,7 @@ modProject.controller("ProjectController", function ProjectController ($scope, $
   });
 });
 
-modProject.directive("createProjectAction", function($timeout, ProjectResource, $location, Routes, FormError) {
+modProject.directive("createProjectAction", function($timeout, ProjectResource, $location, Routes, FormError, FlashFactory) {
 
   function CreateProjectController($scope) {
     $scope.project = { title: $scope.senseAction.payload.title, members_emails: "" };
@@ -164,7 +169,7 @@ modProject.directive("projectMembersInput", function() {
     input.tokenfield({
       autocomplete: {
         minLength: 2,
-        source: '/members',
+        source: '/api/members',
         delay: 300
       },
       showAutocompleteOnFocus: true

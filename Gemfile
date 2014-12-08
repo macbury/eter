@@ -8,6 +8,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'therubyracer',  platforms: :ruby
 
+gem "color-generator"
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0',          group: :doc
@@ -19,7 +20,6 @@ gem "unicorn-rails"
 gem "faye", require: false
 
 group :auth do
-  gem "rolify"
   gem "devise"
   gem 'devise_invitable', '~> 1.3.4'
   gem "cancan"

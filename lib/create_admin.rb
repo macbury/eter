@@ -6,7 +6,7 @@ class CreateAdmin
     @user.last_name = "Admin"
     @user.email     = Figaro.env.admin_email
     @user.password  = @user.password_confirmation = "admin1234"
-    @user.add_role(:admin)
+    @user.admin     = true
     @user.save!
   end
 

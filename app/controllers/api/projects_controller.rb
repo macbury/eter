@@ -1,39 +1,35 @@
-class ProjectsController < ApplicationController
-  before_action :authenticate_user!
+class Api::ProjectsController < ApiController
   before_action :set_project, only: [:show, :edit, :update, :destroy]
-
-  respond_to :json
 
   def index
     authorize! :index, Project
-    @projects = current_user.projects.includes(:roles)
-    respond_with(@projects)
+    @projects = Project.by_user(current_user).includes(:users)
+    respond_with(:api, @projects)
   end
 
   def show
-
-    respond_with(@project)
+    respond_with(:api, @project)
   end
 
   def create
     @project = Project.new(project_params)
     authorize! :create, @project
     if @project.save
-      @project.add_master!(current_user)
+      current_user.assign_master!(@project)
     end
-    respond_with(@project)
+    respond_with(:api,@project)
   end
 
   def update
-    authorize! :updat, @project
+    authorize! :update, @project
     @project.update(project_params)
-    respond_with(@project)
+    respond_with(:api, @project)
   end
 
   def destroy
     authorize! :destroy, @project
     @project.destroy
-    respond_with(@project)
+    respond_with(:api, @project)
   end
 
   private

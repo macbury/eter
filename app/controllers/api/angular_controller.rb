@@ -1,4 +1,4 @@
-class AngularController < ApplicationController
+class Api::AngularController < ApplicationController
   include JsEnv
 
   def show

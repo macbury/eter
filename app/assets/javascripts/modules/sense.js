@@ -18,7 +18,7 @@ senseMod.factory("SenseService", function($http, $q, $timeout, $rootScope) {
     var sense_params = {};
     angular.copy(context, sense_params);
     sense_params["query"] = query;
-    $http.post("/sense", { sense: sense_params }).success(function(data, status) {
+    $http.post("/api/sense", { sense: sense_params }).success(function(data, status) {
       resetQueryRequest();
 
       if (status == 200) {

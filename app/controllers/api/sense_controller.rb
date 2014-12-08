@@ -1,7 +1,4 @@
-class SenseController < ApplicationController
-  before_action :authenticate_user!
-
-  respond_to :json
+class Api::SenseController < ApiController
 
   def create
     @context = SenseContext.new(params.require(:sense), current_user, current_ability)

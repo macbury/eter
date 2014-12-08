@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  scope constraints: { format: :json }, defaults: { format: :json } do
+  namespace :api, constraints: { format: :json }, defaults: { format: :json } do
     resources :projects
     get "/angular" => "angular#show"
     post "/sense" => "sense#create", as: :sense
