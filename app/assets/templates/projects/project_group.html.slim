@@ -1,0 +1,12 @@
+.project-group
+    .project-group-header
+      h4 ng-click="projectGroupCtrl.toggle()"
+        i.fa ng-class="projectGroupCtrl.getArrowClass()"
+        | {{ groupTitleTranslationKey | translate }} ({{ projects.length }})
+    .project-group-content ng-show="visible"
+      .row ng-show="projectGroupCtrl.haveProjects()"
+        .col-md-12
+          | {{ 'projects.empty' | translate }}
+      .row ng-repeat="rows in projects | partition:4:this"
+        .col-md-3 ng-repeat="project in rows"
+          project-card

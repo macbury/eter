@@ -51,19 +51,59 @@ modProject.factory("ProjectResource", function($http, $q, FlashFactory) {
 });
 
 
-modProject.controller("DashboardProjectsController", function DashboardProjectsController ($scope, $rootScope, ProjectResource, Browser, Routes, FlashFactory) {
-  $scope.projects = null;
-  Browser.setLocalizedTitle("projects.header");
-  this.isEmpty = function() { return $scope.projects != null && $scope.projects.length == 0; }
+modProject.directive("projectsDashboard", function() {
+  function DashboardProjectsController ($scope, $rootScope, ProjectResource, Browser, Routes, FlashFactory) {
+    $scope.activeProjects = null;
+    Browser.setLocalizedTitle("projects.header");
+    this.isEmpty = function() { return $scope.projects != null && $scope.projects.length == 0; }
 
-  ProjectResource.all().then(function(projects) {
-    $scope.projects = projects;
-  }, function (status) {
-    FlashFactory.handleHttpStatusError(status);
-  });
+    ProjectResource.all().then(function(projects) {
+      $scope.activeProjects = projects;
+    }, function (status) {
+      FlashFactory.handleHttpStatusError(status);
+    });
 
-  this.projectUrl = function(projectJson) {
-    return '#'+Routes.projectUrl({project_id: projectJson.id});
+    this.projectUrl = function(projectJson) {
+      return '#'+Routes.projectUrl({project_id: projectJson.id});
+    }
+  };
+
+  return {
+    restrict: "E",
+    controller: DashboardProjectsController,
+    controllerAs: "projectsController"
+  };
+});
+
+modProject.directive("projectGroup", function() {
+  return {
+    restrict: "E",
+    templateUrl: "projects/project_group.html",
+    controller: function ProjectGroupController($scope, localStorageService, $timeout) {
+      $scope.visible    = false;
+      $timeout(function () {
+        $scope.visible = localStorageService.get($scope.groupTitleTranslationKey) == "true";
+      });
+      this.haveProjects = function() { return $scope.projects != null && $scope.projects.length == 0; };
+      this.toggle       = function() {
+        $scope.visible = !$scope.visible;
+        localStorageService.set($scope.groupTitleTranslationKey, $scope.visible);
+      };
+      this.getArrowClass = function (argument) {
+        if ($scope.visible) {
+          return "fa-arrow-down";
+        } else {
+          return "fa-arrow-right"
+        }
+      }
+    },
+    controllerAs: "projectGroupCtrl",
+    link: function (scope, element, attrs, ctrls) {
+      scope.$watch(attrs["projects"], function(newValue, oldValue) {
+        scope.projects = newValue;
+      });
+      scope.groupTitleTranslationKey = attrs["title"];
+    }
   }
 });
 

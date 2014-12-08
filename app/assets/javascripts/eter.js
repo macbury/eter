@@ -1,4 +1,5 @@
-var eterApp = angular.module("eterApp", [ "ngAnimate", "modSenseAction", "modBrowser", "modFlash", "pascalprecht.translate", "modSense", "ngRoute", "modProject", 'angular-loading-bar', 'mopInclude', 'modActivities', 'modRoute', "modFloatLabel", "angular-spinkit", "modBreadcrumb", "bootstrap-tagsinput", "modError"]);
+var eterApp = angular.module("eterApp", [ "ngAnimate", "modSenseAction", "modBrowser", "modFlash", "pascalprecht.translate", "modSense", "ngRoute", "modProject", 'angular-loading-bar', 'mopInclude', 'modActivities', 'modRoute', "modFloatLabel", "angular-spinkit", "modBreadcrumb", "bootstrap-tagsinput", "modError",
+"LocalStorageModule"]);
 var Rails   = {};
 
 eterApp.factory('railsLocalesLoader', function RailsLocalesLoader($http) {
@@ -11,8 +12,14 @@ eterApp.factory('railsLocalesLoader', function RailsLocalesLoader($http) {
   };
 });
 
-eterApp.config(function Config($provide, $httpProvider, $translateProvider, BrowserProvider) {
+eterApp.config(function Config($provide, $httpProvider, $translateProvider, BrowserProvider, localStorageServiceProvider) {
   BrowserProvider.setAppName("Eter");
+
+  localStorageServiceProvider
+    .setPrefix('eter')
+    .setStorageType('localStorage')
+    .setNotify(true, true);
+
   $httpProvider.defaults.headers.common['X-CSRF-Token'] = angular.element(document.querySelector('meta[name=csrf-token]')).attr('content');
 
   $provide.factory('railsAssetsInterceptor', function RailsAssetsIntercreptor($cacheFactory) {

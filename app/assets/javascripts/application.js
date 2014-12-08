@@ -21,6 +21,7 @@
 //= require angular-resource
 //= require angular-translate
 //= require angular-spinkit
+//= require angular-local-storage
 //= require_tree ./libs/
 //= require_tree ./modules/
 //= require eter

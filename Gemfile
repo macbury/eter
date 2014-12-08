@@ -43,6 +43,7 @@ group :assets do
   gem 'rails-assets-angular-loading-bar'
   gem 'rails-assets-angular-spinkit'
   gem "rails-assets-angular-mocks"
+  gem 'rails-assets-angular-local-storage'
   gem 'jquery-ui-rails'
 end
 

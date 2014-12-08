@@ -11,6 +11,8 @@ en:
     header: "My projects"
     empty: "You are not assigned to any project."
     not_found: "Could not find project."
+    group:
+      active: "Active projects"
   sense:
     loading: "Working... Please wait..."
     settings:
