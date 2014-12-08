@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
 
   def index
     authorize! :index, Project
-    @projects = current_user.projects
+    @projects = current_user.projects.includes(:roles)
     respond_with(@projects)
   end
 

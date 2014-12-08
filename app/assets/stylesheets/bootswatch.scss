@@ -329,6 +329,11 @@ a.list-group-item {
 
 .breadcrumb {
   margin: 0px;
+  z-index: $zindex-navbar;
+  position: fixed;
+  right: 0px;
+  left: 0px;
+
   i {
     margin-right: 10px;
   }

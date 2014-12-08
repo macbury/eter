@@ -4,19 +4,27 @@ class Project < ActiveRecord::Base
 
   ROLE_MASTER    = :master
   ROLE_DEVELOPER = :developer
+  ROLE_ADMIN     = :admin
+  ROLES          = [ROLE_MASTER, ROLE_DEVELOPER, ROLE_DEVELOPER]
   EMAIL_REGEXP   = /([a-z0-9_\-\.]+@[a-z0-9_\-\.]+\.[a-z0-9_\-\.]+)/i
 
   attr_accessor :members_emails
 
   scope :by_title,        -> (title) { where("title LIKE :title", title: title+"%") }
   scope :except_project,  -> (project) { where("projects.id != :project_id", project_id: project.id) if project }
-  scope :by_user,         -> (user) { user.admin? ? all : with_role([ROLE_MASTER, ROLE_DEVELOPER], user) }
+  scope :by_user,         -> (user) { user.admin? ? all : with_role([ROLE_MASTER, ROLE_DEVELOPER, ROLE_ADMIN], user) }
 
   after_create :assign_members!
 
+  def members_ids
+    roles.map(&:user_ids).flatten
+  end
+
   def members
-    user_ids = roles.map(&:user_ids).flatten
-    @members ||= User.find(user_ids)
+    if @members.nil?
+      @members ||= User.find(members_ids)
+    end
+    @members
   end
 
   def members_emails

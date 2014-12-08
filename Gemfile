@@ -67,6 +67,7 @@ group :development, :test do
   gem 'shoulda-matchers', require: false
   gem "rack-livereload"
   gem "launchy"
+  gem "faker"
   gem 'puffing-billy', require: false
 end
 

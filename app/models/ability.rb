@@ -10,6 +10,8 @@ class Ability
       can :read, Project do |project|
         user.has_role?([:master, :developer], project)
       end
+      
+      can :create, Project
 
       can :manage, Project do |project|
         user.has_role?(:master, project)
