@@ -7,7 +7,7 @@ feature "Dashboard", js: true do
     scenario "i should see all projects" do
       visit root_path
       Project.all.each do |project|
-        expect(page).to have_text(project.title)
+        expect(page).to have_text(project.title.upcase)
       end
     end
   end
