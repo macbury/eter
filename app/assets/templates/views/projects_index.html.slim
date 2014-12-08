@@ -1,4 +1,7 @@
 div ng-controller="DashboardProjectsController as projectsController"
+  .row
+    .col-md-12
+      h3 Active project
   .row ng-show="projectsController.isEmpty()"
     .col-md-12
       | {{ 'projects.empty' | translate }}

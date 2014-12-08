@@ -1,0 +1,55 @@
+$project_card_content_height: 72px;
+.project-card {
+  margin-bottom: 30px;
+  .project-header {
+    background: rgba(255,255,255, 0.05);
+    padding: 10px 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    a {
+      text-transform: uppercase;
+      color: #fff;
+      i.fa {
+        margin-right: 10px;
+      }
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .project-content {
+    height: $project_card_content_height;
+    overflow: hidden;
+    .project-info {
+      text-align: center;
+      vertical-align: middle;
+      min-height: $project_card_content_height;
+      .fa {
+        margin-right: 5px;
+      }
+      .large {
+        font-size: 20px;
+        display: block;
+        margin-top: 15px;
+      }
+
+      .graph {
+        margin-top: 15px;
+        display: block;
+        margin-bottom: 5px;
+      }
+    }
+  }
+
+  .project-members {
+    min-height: 32px;
+    background: rgba(0,0,0, 0.05);
+
+    ul {
+      list-style: none;
+      padding: 0px;
+    }
+  }
+}

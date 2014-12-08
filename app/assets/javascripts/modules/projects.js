@@ -148,6 +148,23 @@ modProject.directive("projectScm", function() {
   }
 });
 
+modProject.directive("projectActivityGraph", function() {
+  return {
+    restrict: "E",
+    link: function(scope, element, attrs) {
+      scope.$watch("project.activity", function(newVal, oldVal) {
+        $(element).sparkline(newVal, {
+          type: 'bar',
+          barColor: 'rgba(255, 255, 255, 0.3)',
+          barSpacing: 1,
+          height: '24',
+          barWidth: 6
+        });
+      });
+    }
+  }
+});
+
 modProject.directive("projectMembersInput", function() {
   function LinkMembersAutocomplete(scope, element, attrs) {
     var input = element.find("input");

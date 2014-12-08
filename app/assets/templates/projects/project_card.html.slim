@@ -1,7 +1,23 @@
-div style="background: \#{{ project.color_hex }};"
-  .panel-heading
+.project-card style="background: \#{{ project.color_hex }};"
+  .project-header
     a ng-href="{{ projectsController.projectUrl(project); }}"
+      i.fa.fa-th-large
       | {{ project.title }}
-  .panel-body
+  .project-content
+    .row
+      .col-lg-4.project-info
+        span.large 100/100
+        i.fa.fa-ticket
+        | tickets
+      .col-lg-4.project-info
+        span.large 5
+        i.fa.fa-tachometer
+        | velocity
+      .col-lg-4.project-info
+        project-activity-graph.graph
+        i.fa.fa-users
+        | activity
+  .project-members
     ul
-      li ng-repeat="user in project.members" {{ user.initials }}
+      li ng-repeat="user in project.members"
+        user-avatar-link
