@@ -149,7 +149,10 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
     };
 
     this.checkKeyDown  = function(event) {
-      if(event.keyCode===40){
+      if(event.keyCode===27){ // escape key
+        event.preventDefault();
+        this.clearAndFocus();
+      } else if(event.keyCode===40){
         event.preventDefault();
         if ($scope.suggestionIndex < $scope.suggestions.length - 1){
           $scope.suggestionIndex++;

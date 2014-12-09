@@ -1,5 +1,12 @@
 
 en:
+  activerecord:
+    errors:
+      user_not_in_project: "user is not a member of this project"
+      project_estimate: "is not an allowed value for this project"
+      project_week_error: "must be between 1 and 4 weeks"
+      project_point_scale: "%{value} is not a valid estimation scheme"
+      iteration_start_day: "must be an integer between 0 and 6"
   breadcrumb:
     home: "Home"
   senses:
@@ -34,6 +41,7 @@ en:
     success: "Success"
     error: "Error"
     notice: Notice
+    processing_error: "Unprocessable Entity"
     internal_server_error: "Internal server error occured while performing request!"
     unauthorized_access: "Cannot access this resource."
     not_found: "Could not find resource."
@@ -41,10 +49,20 @@ en:
     buttons:
       save: "Save"
       cancel: "Cancel"
+    options:
+      project:
+        point_scales:
+          fibonacci: "Fibonacci (0,1,2,3,5,8)"
+          powers_of_two: "Power of two (0,1,2,4,8)"
+          linear: "Linear (0,1,2,3,4,5)"
     labels:
       project:
         members: "Members"
         title: "Project title"
+        point_scale: "Point scale"
+        default_velocity: "Default velocity"
+        iteration_start_day: "Iteration start day"
+        start_date: "Start date"
     hints:
       project:
         members: "Search for users in system, or type email to invite them"

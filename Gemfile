@@ -8,6 +8,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'therubyracer',  platforms: :ruby
 
+gem "transitions", :require => ["transitions", "active_model/transitions"]
 gem "color-generator"
 gem 'jquery-rails'
 gem 'jbuilder', '~> 2.0'

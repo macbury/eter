@@ -2,16 +2,6 @@ require "rails_helper"
 
 feature "Dashboard", js: true do
 
-  describe "as admin" do
-    as_user(:admin_with_projects)
-    scenario "i should see all projects" do
-      visit root_path
-      Project.all.each do |project|
-        expect(page).to have_text(project.title.upcase)
-      end
-    end
-  end
-
   describe "as user" do
     as_user(:user)
 

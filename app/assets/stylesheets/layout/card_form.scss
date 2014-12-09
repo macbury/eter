@@ -1,0 +1,42 @@
+$card_form_label_color: #aaaaaa;
+.card-form {
+  .float-label-control.ng-invalid {
+    input, textarea {
+      border-color: $state-danger-bg !important;
+      color: $state-danger-bg !important;
+    }
+
+    label {
+      color: $state-danger-bg !important;
+    }
+  }
+
+  .float-label-control input:focus, .float-label-control textarea:focus {
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border-bottom-width: 2px;
+    padding-bottom: 0;
+    border-color: $input-border-focus-sense;
+  }
+
+  .float-label-control:not(.empty):focus label {
+    color: $card_form_label_color;
+  }
+
+  .select-form-group label {
+    color: $card_form_label_color;
+    font-size: 0.85em;
+    font-weight: normal;
+  }
+
+  select.form-control {
+    border-bottom-width: 1px;
+    border-color: $card_form_label_color;
+    border-bottom-style: solid;
+
+    &:hover, &:active, &:focus {
+      border-color: $input-border-focus-sense;
+      border-bottom-width: 2px;
+    }
+  }
+}

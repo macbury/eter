@@ -1,2 +1,5 @@
 projects-dashboard
   project-group title="projects.group.active" projects="activeProjects"
+  .row ng-show="projectsController.isEmpty()"
+    .col-md-12
+      | {{ 'projects.empty' | translate }}

@@ -5,9 +5,12 @@ modError.factory("FormError", function() {
 
   exports.applyToForm = function(errors, form) {
     $.each(errors, function(field, errorFieldMessages) {
-      form[field].$dirty = true;
-      form[field].$setValidity('server', false);
-      form[field].serverErrors = errorFieldMessages;
+      if (form[field] != null) {
+        form[field].$dirty = true;
+        form[field].$setValidity('server', false);
+        form[field].serverErrors = errorFieldMessages;
+      }
+
     });
   };
 

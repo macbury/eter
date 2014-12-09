@@ -7,6 +7,11 @@ class Api::ProjectsController < ApiController
     respond_with(:api, @projects)
   end
 
+  def new
+    @project = Project.new
+    respond_with(:api, @project)
+  end
+
   def show
     respond_with(:api, @project)
   end
@@ -39,6 +44,6 @@ class Api::ProjectsController < ApiController
     end
 
     def project_params
-      params.require(:project).permit(:title, :members_emails)
+      params.require(:project).permit(:title, :members_emails, :point_scale, :start_date, :iteration_start_day, :default_velocity, :iteration_length)
     end
 end

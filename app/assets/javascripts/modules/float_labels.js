@@ -9,7 +9,7 @@ function TextInputLink(scope, element, attrs, ctrls) {
     if (text == null || text.length == 0 || typeof(text) != "string") {
       text = input.val();
     }
-    if (text.length == 0) {
+    if (text.length == 0 || text == "") {
       element.addClass("empty");
     } else {
       element.removeClass("empty");
@@ -28,8 +28,9 @@ function TextInputLink(scope, element, attrs, ctrls) {
     swapLabels(text);
   });
   input.on("change keyup blur focus input", swapLabels);
-
-  setTimeout(swapLabels, 100);
+  scope.$parent.$watch(scope.model, function(newValue, oldValue) {
+    swapLabels(""+newValue);
+  });
 }
 
 modFloatLabel.directive('focusOn', function() {
@@ -50,11 +51,12 @@ modFloatLabel.directive("floatLabel", function() {
     scope: {
       "placeholder": "@placeholder",
       "for": "@for",
-      "errors": "=errors"
+      "errors": "=errors",
+      "model": "@model"
     },
     template: [
     '<div class="form-group float-label-control" ng-class="getErrorClass()">',
-      '<ng-transclude></ng-transclude>',
+      '<span ng-transclude></span>',
       '<label for="{{ for }}">{{ placeholder | translate }}</label>',
       '<p class="help-block-error" ng-show="errors">{{ errors.join(", ") }}</p>',
     '</div>'

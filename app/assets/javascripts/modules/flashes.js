@@ -7,6 +7,10 @@ flashMod.factory('FlashFactory', function FlashFactory ($translate) {
     this.showLocalized("error", "flashes.internal_server_error");
   };
 
+  exports.processingError = function() {
+    this.showLocalized("error", "flashes.processing_error");
+  };
+
   exports.unauthorizedError = function() {
     this.showLocalized("error", "flashes.unauthorized_access");
   };
@@ -23,7 +27,7 @@ flashMod.factory('FlashFactory', function FlashFactory ($translate) {
     if (status == 500) {
       this.internalServerError();
     } else if (status == 422) {
-      this.unauthorizedError();
+      this.processingError();
     } else if (status == 404) {
       this.notFoundError();
     } else {

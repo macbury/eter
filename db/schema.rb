@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141208115356) do
+ActiveRecord::Schema.define(version: 20141209095310) do
 
   create_table "members", force: true do |t|
     t.integer  "user_id",     null: false
@@ -26,7 +26,26 @@ ActiveRecord::Schema.define(version: 20141208115356) do
     t.string   "title"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "color_hex",  null: false
+    t.string   "color_hex",                                 null: false
+    t.string   "point_scale",         default: "fibonacci"
+    t.datetime "start_date"
+    t.integer  "iteration_start_day", default: 1
+    t.integer  "iteration_length",    default: 1
+    t.integer  "default_velocity",    default: 10
+  end
+
+  create_table "stories", force: true do |t|
+    t.integer  "project_id"
+    t.integer  "requested_by_id"
+    t.integer  "owner_id"
+    t.string   "story_type"
+    t.integer  "estimate"
+    t.string   "title"
+    t.text     "description"
+    t.string   "state"
+    t.datetime "accepted_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|

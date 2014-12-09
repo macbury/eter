@@ -1,8 +1,12 @@
-form role="form" name="projectForm" ng-submit="createProjectCtrl.create()" novalidate="novalidate"
+form.card-form role="form" name="projectForm" ng-submit="createProjectCtrl.create()" novalidate="novalidate"
   .main-inputs ng-hide="createProjectCtrl.isLoading()"
     .inputs
       project-title-input
       project-members-input
+      project-default-velocity-input
+      project-point-scale-select
+      project-iteration-start-day-select
+      project-start-date-picker
     submit-cancel-buttons on-submit-click="createProjectCtrl.create()" ng-hide="createProjectCtrl.isLoading()"
   .inputs ng-show="createProjectCtrl.isLoading()"
     rotating-plane-spinner
