@@ -28,7 +28,7 @@ feature "Dashboard", js: true do
 
     scenario "i should see login and settings option after click sense menu" do
       visit root_path
-      find(".sense-open").click
+      open_sense_menu
 
       expect(page).to have_text(I18n.t("sense.logout.label"))
       expect(page).to have_text(I18n.t("sense.settings.label"))

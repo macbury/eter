@@ -12,7 +12,7 @@ $sense-item-padding: 10px;
     height: $input-height-base;
     line-height: $input-height-base;
     padding: $sense-padding;
-
+    box-shadow: rgba(0,0,0,0.1) 0px 0px 10px;
     .sense-icon {
       margin-right: 10px;
       margin-left: 5px;

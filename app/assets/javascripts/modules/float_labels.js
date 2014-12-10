@@ -6,10 +6,10 @@ function TextInputLink(scope, element, attrs, ctrls) {
   var input = element.find("input, textarea");
 
   function swapLabels(text) {
-    if (text == null || text.length == 0 || typeof(text) != "string") {
+    if (text == undefined || text == null || text.length == 0 || typeof(text) != "string") {
       text = input.val();
     }
-    if (text.length == 0 || text == "") {
+    if (text == undefined || text == null || text.length == 0 || text == "") {
       element.addClass("empty");
     } else {
       element.removeClass("empty");
@@ -29,7 +29,11 @@ function TextInputLink(scope, element, attrs, ctrls) {
   });
   input.on("change keyup blur focus input", swapLabels);
   scope.$parent.$watch(scope.model, function(newValue, oldValue) {
-    swapLabels(""+newValue);
+    if (newValue == null) {
+      swapLabels();
+    } else {
+      swapLabels(""+newValue);
+    }
   });
 }
 

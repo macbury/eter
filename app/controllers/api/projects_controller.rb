@@ -13,6 +13,7 @@ class Api::ProjectsController < ApiController
   end
 
   def show
+    authorize! :read, @project
     respond_with(:api, @project)
   end
 
@@ -23,6 +24,11 @@ class Api::ProjectsController < ApiController
       current_user.assign_master!(@project)
     end
     respond_with(:api,@project)
+  end
+
+  def edit
+    authorize! :edit, @project
+    render action: "new"
   end
 
   def update
@@ -40,7 +46,7 @@ class Api::ProjectsController < ApiController
   private
     def set_project
       @project = Project.find(params[:id])
-      authorize! :show, @project
+      authorize! :read, @project
     end
 
     def project_params

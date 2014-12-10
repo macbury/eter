@@ -4,5 +4,5 @@ ol.breadcrumb
       i.fa.fa-home
       | {{ "breadcrumb.home" | translate }}
   li ng-repeat="item in breadcrumbCtrl.getItems()"
-    a ng-href="{{ item.url }}"
-      | {{ item.title }}
+    a ng-href="{{ item.url }}" ng-if="!$last" {{ item.title }}
+    b ng-if="$last" {{ item.title }}

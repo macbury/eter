@@ -47,6 +47,17 @@ modProject.factory("ProjectResource", function($http, $q, FlashFactory) {
     return deferred.promise;
   };
 
+  exports.edit = function(project_id) {
+    var deferred = $q.defer();
+    $http({ method: "GET", url: "/api/projects/"+project_id+"/edit" }).success(function(data, status, headers, config) {
+      deferred.resolve(data);
+    }).error(function(data, status, headers, config) {
+      deferred.reject(status);
+    });
+
+    return deferred.promise;
+  };
+
   exports.find = function(project_id) {
     var deferred = $q.defer();
     $http({ method: "GET", url: "/api/projects/"+project_id+".json" }).success(function(data, status, headers, config) {
@@ -121,18 +132,45 @@ modProject.directive("projectGroup", function() {
   }
 });
 
-modProject.controller("ProjectController", function ProjectController ($scope, $rootScope, ProjectResource, Browser, $routeParams, SenseService, $location, FlashFactory, Breadcrumb, Routes, SenseMenuService) {
+modProject.controller("ProjectController", function ProjectController ($scope, $rootScope, ProjectResource, Browser, $routeParams, SenseService, $location, FlashFactory, Breadcrumb, Routes, SenseMenuService, CanCan) {
   $scope.project = null;
 
   var project_id = $routeParams['id'];
   SenseService.putContext("project_id", project_id);
 
-  SenseMenuService.add("sense.project_settings.label", "fa-gear", Routes.editProjectUrl({ project_id: project_id }));
-  
   ProjectResource.find(project_id).then(function(project) {
     $scope.project = project;
     Browser.setTitle(project.title);
     Breadcrumb.addItem(project.title, Routes.projectUrl({ project_id: project.id }));
+    if (CanCan.can("edit", project)) {
+      SenseMenuService.add("sense.project_settings.label", "fa-gear", Routes.editProjectUrl({ project_id: project_id }));
+    }
+
+  }, function (status) {
+    $location.path("/projects");
+    FlashFactory.handleHttpStatusError(status);
+  });
+});
+
+modProject.controller("EditProjectController", function EditProjectController ($scope, ProjectResource, Browser, $routeParams, SenseService, $location, FlashFactory, Breadcrumb, Routes, SenseMenuService, CanCan) {
+  $scope.project = null;
+
+  var project_id = $routeParams['id'];
+  SenseService.putContext("project_id", project_id);
+
+
+
+  ProjectResource.edit(project_id).then(function(response) {
+    var project               = response.project;
+    project.start_date        = new Date(project.start_date);
+    $scope.project            = project;
+    $scope.pointScales        = response.point_scales;
+    $scope.iterationLength    = response.iteration_length;
+    $scope.iterationStartDay  = response.iteration_start_day;
+    $scope.cancelUrl          =  Routes.projectUrl({ project_id: project.id });
+    Browser.setTitle(project.title);
+    Breadcrumb.addItem(project.title, Routes.projectUrl({ project_id: project.id }));
+    Breadcrumb.addTranslateItem("breadcrumb.actions.edit", Routes.editProjectUrl({ project_id: project.id }));
   }, function (status) {
     $location.path("/projects");
     FlashFactory.handleHttpStatusError(status);

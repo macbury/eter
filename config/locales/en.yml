@@ -9,6 +9,8 @@ en:
       iteration_start_day: "must be an integer between 0 and 6"
   breadcrumb:
     home: "Dashboard"
+    actions:
+      edit: "Edit"
   senses:
     goto_dashboard_action:
       label: "Dashboard"

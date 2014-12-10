@@ -1,5 +1,25 @@
 $card_form_label_color: #aaaaaa;
 .card-form {
+  color: rgb(70, 69, 69);
+  &.box {
+    background: #fff;
+    box-shadow: rgba(0,0,0,0.3) 0px 0px 10px;
+    margin: 15px 0px;
+    .inputs {
+      padding: 30px 20px;
+    }
+
+    .buttons {
+      width: 100%;
+
+      a, button:not(.btn-block) {
+        width: 50%;
+        float: left;
+        display: block;
+      }
+    }
+  }
+
   .float-label-control.ng-invalid {
     input, textarea {
       border-color: $state-danger-bg !important;

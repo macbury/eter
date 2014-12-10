@@ -25,12 +25,18 @@ flashMod.factory('FlashFactory', function FlashFactory ($translate) {
     this.showLocalized("error", "flashes.not_found");
   };
 
+  exports.forbiddenError = function() {
+    this.show("error", "You are not authorized to access this page");
+  };
+
   exports.undefinedStatus = function(status) {
     this.show("error", "Could not handle status: " + status);
   };
 
   exports.handleHttpStatusError = function (status) {
-    if (status == 401) {
+    if (status == 403) {
+      this.forbiddenError();
+    } else if (status == 401) {
       this.unauthorizedError();
     } else if (status == 500) {
       this.internalServerError();

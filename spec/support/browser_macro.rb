@@ -3,6 +3,14 @@ module BrowserMacro
   BROWSER_KEY_UP    = 38
   BROWSER_KEY_ENTER = 13
 
+  def visit_hash(hash_path)
+    visit("/" + hash_path)
+  end
+
+  def open_sense_menu
+    find(".sense-open").click
+  end
+
   def page_trigger_key_on(field_css_id, key)
     result = page.driver.evaluate_script <<-EOS
       function() {

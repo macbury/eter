@@ -1,6 +1,6 @@
 var modBreadcrumb = angular.module("modBreadcrumb", []);
 
-modBreadcrumb.factory("Breadcrumb", function($rootScope) {
+modBreadcrumb.factory("Breadcrumb", function($rootScope, $translate) {
   var exports = {};
   var items   = [];
 
@@ -18,6 +18,8 @@ modBreadcrumb.factory("Breadcrumb", function($rootScope) {
   exports.addTranslateItem = function (key, url) {
     $translate(key).then(function(titleTranslation) {
       exports.addItem(titleTranslation, url);
+    }, function() {
+      exports.addItem("not found " + key, url);
     });
   };
 

@@ -1,5 +1,5 @@
 var eterApp = angular.module("eterApp", [ "ngAnimate", "modSenseAction", "modBrowser", "modFlash", "pascalprecht.translate", "modSense", "ngRoute", "modProject", 'angular-loading-bar', 'mopInclude', 'modActivities', 'modRoute', "modFloatLabel", "angular-spinkit", "modBreadcrumb", "bootstrap-tagsinput", "modError",
-"LocalStorageModule"]);
+"LocalStorageModule", "modCanCan"]);
 var Rails   = {};
 
 eterApp.factory('railsLocalesLoader', function RailsLocalesLoader($http) {

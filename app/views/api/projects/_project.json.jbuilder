@@ -5,5 +5,7 @@ json.members do
 end
 
 json.permission do
-  json.manage can?(:manage, project)
+  [:edit, :destroy, :show].each do |permission|
+    json.set!(permission, can?(permission, project))
+  end
 end

@@ -1,1 +1,17 @@
-h1 Editing project!
+.row ng-controller="EditProjectController as editProjectCtrl"
+  .col-md-4.col-md-offset-2
+    form.card-form.box role="form" name="projectForm" novalidate="novalidate" ng-show="project"
+      .inputs
+        project-title-input
+        project-start-date-picker
+        project-iteration-start-day-select
+        project-default-velocity-input
+        project-point-scale-select
+      .buttons
+        a.btn.btn-danger ng-href="\#{{ cancelUrl }}" {{ "simple_form.buttons.cancel" | translate }}
+        button.btn.btn-success type="submit" {{ 'simple_form.buttons.save' | translate }}
+        .clearfix
+
+  .col-md-4
+    .card-form.box
+      h3 members
