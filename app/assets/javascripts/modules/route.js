@@ -21,6 +21,10 @@ modRoute.factory("Routes", function($location) {
     return '/projects/' + params['project_id'];
   };
 
+  exports.projectsUrl = function(params) {
+    return '/projects';
+  };
+
   exports.actionUrl = function ActionUrl(senseAction) {
     var q = btoa(JSON.stringify(senseAction));
     return '#'+$location.path() + "?"+$.param({ action: q });

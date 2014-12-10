@@ -10,4 +10,8 @@
   &.goto_project_action:before {
     content: $fa-var-th-large;
   }
+
+  &.goto_dashboard_action:before {
+    content: $fa-var-home;
+  }
 }

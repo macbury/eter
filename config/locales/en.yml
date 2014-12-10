@@ -8,8 +8,14 @@ en:
       project_point_scale: "%{value} is not a valid estimation scheme"
       iteration_start_day: "must be an integer between 0 and 6"
   breadcrumb:
-    home: "Home"
+    home: "Dashboard"
   senses:
+    goto_dashboard_action:
+      label: "Dashboard"
+      query:
+        - Dashboard
+        - Home
+        - Projects
     create_project_action:
       label: "Create a new project: "
     goto_project_action:
