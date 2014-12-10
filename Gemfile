@@ -71,6 +71,7 @@ group :development, :test do
   gem "launchy"
   gem "faker"
   gem 'puffing-billy', require: false
+  gem "nyan-cat-formatter"
 end
 
 # Use Capistrano for deployment

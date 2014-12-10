@@ -2,7 +2,23 @@ require "rails_helper"
 
 feature "Dashboard", js: true do
 
-  describe "as user" do
+  describe "as user with projects" do
+    as_user(:user_with_projects)
+
+    scenario "i should see projects in dashboard" do
+      visit root_path
+      projects = Project.by_user(current_user)
+
+      expect(page).not_to have_text(I18n.t("projects.empty"))
+      click_on("Active projects")
+
+      projects.each do |project|
+        expect(page).to have_text(project.title.upcase)
+      end
+    end
+  end
+
+  describe "as user without projects" do
     as_user(:user)
 
     scenario "i should see information about no projects assigned to me" do
