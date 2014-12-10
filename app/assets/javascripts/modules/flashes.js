@@ -12,7 +12,13 @@ flashMod.factory('FlashFactory', function FlashFactory ($translate) {
   };
 
   exports.unauthorizedError = function() {
-    this.showLocalized("error", "flashes.unauthorized_access");
+    swal({
+      title: "Error",
+      text: "You need to sign in or sign up before continuing.",
+      type: "error",
+    }, function(){
+      window.location.href = "/";
+    });
   };
 
   exports.notFoundError = function() {
@@ -24,7 +30,9 @@ flashMod.factory('FlashFactory', function FlashFactory ($translate) {
   };
 
   exports.handleHttpStatusError = function (status) {
-    if (status == 500) {
+    if (status == 401) {
+      this.unauthorizedError();
+    } else if (status == 500) {
       this.internalServerError();
     } else if (status == 422) {
       this.processingError();
