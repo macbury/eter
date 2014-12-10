@@ -28,8 +28,10 @@ en:
       active: "Active projects"
   sense:
     loading: "Working... Please wait..."
+    project_settings:
+      label: "Project settings"
     settings:
-      label: "Settings"
+      label: "Profile"
     logout:
       label: "Logout"
   session:

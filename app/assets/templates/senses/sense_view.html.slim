@@ -13,12 +13,17 @@
           sense-action-link on-action-click="senseCtrl.startAction(suggestion)" on-redirect-click="senseCtrl.clear()" action="suggestion"
     .result-group  ng-hide="currentSense"
       ul.grid
-        li.col-xs-6
+        li ng-repeat="item in senseCtrl.getMenuItems()" ng-class="'col-lg-'+ senseCtrl.getMenuColumnSize()"
+          a ng-href="{{ '#'+item.url }}"  ng-click="senseCtrl.clear()"
+            i.fa ng-class="item.icon"
+            b
+              | {{ item.key | translate }}
+        li ng-class="'col-lg-'+ senseCtrl.getMenuColumnSize()"
           a href="/users/sign_out"  ng-click="senseCtrl.clear()"
             i.fa.fa-cogs
             b
               | {{ "sense.settings.label" | translate }}
-        li.col-xs-6
+        li ng-class="'col-lg-'+ senseCtrl.getMenuColumnSize()"
           a href=Rails.application.routes.url_helpers.destroy_user_session_path data-method="delete" ng-click="senseCtrl.clear()"
             i.fa.fa-key
             b

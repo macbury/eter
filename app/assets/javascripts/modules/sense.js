@@ -1,5 +1,32 @@
 var senseMod = angular.module("modSense", ["modFlash", "modRoute"]);
 
+senseMod.factory("SenseMenuService", function($rootScope) {
+  var exports = {};
+  var items   = [];
+
+  exports.reset    = function() {
+    items = [];
+  };
+
+  exports.count    = function() {
+    return items.length;
+  };
+
+  exports.getItems = function(argument) {
+    return items;
+  };
+
+  exports.add      = function(translationKey, fontAwesomeIcon, url) {
+    items.push({
+      key: translationKey,
+      icon: fontAwesomeIcon,
+      url: url
+    });
+  }
+
+  return exports;
+})
+
 senseMod.factory("SenseService", function($http, $q, $timeout, $rootScope) {
   var exports       = {};
   var context      = {};
@@ -89,7 +116,7 @@ senseMod.factory("SenseService", function($http, $q, $timeout, $rootScope) {
   return exports;
 });
 
-senseMod.directive("senseView", function SenseViewDirective($http, $location, SenseService, FlashFactory, Routes, $timeout) {
+senseMod.directive("senseView", function SenseViewDirective($http, $location, SenseService, FlashFactory, Routes, $timeout, $rootScope, SenseMenuService) {
   function SenseViewController($scope) {
     $scope.suggestionIndex = 0;
     $scope.showResults = false;
@@ -98,9 +125,23 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
     $scope.suggestions = [];
     $scope.currentSense = null;
 
-    $scope.$on("closeSenseMenu", angular.bind(this, function() {
+    $rootScope.$on("closeSenseMenu", angular.bind(this, function() {
       this.clearAndFocus();
     }));
+
+    $rootScope.$on("$routeChangeStart", function(event, next, current){
+      SenseMenuService.reset();
+    });
+
+    this.getMenuItems      = function() {
+      return SenseMenuService.getItems();
+    };
+
+    this.getMenuColumnSize = function () {
+      var bootstrapMaxColumns = 12;
+      var defaultTwoButtons   = 2;
+      return Math.floor(bootstrapMaxColumns / (SenseMenuService.count() + defaultTwoButtons));
+    }
 
     this.loadActionFromUrl = function() {
       var action = $location.search()["action"];

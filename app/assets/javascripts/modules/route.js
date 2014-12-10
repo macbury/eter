@@ -1,6 +1,5 @@
 var modRoute = angular.module("modRoute", []);
 
-
 modRoute.factory("Routes", function($location) {
   var exports = {};
 
@@ -19,6 +18,10 @@ modRoute.factory("Routes", function($location) {
 
   exports.projectUrl = function(params) {
     return '/projects/' + params['project_id'];
+  };
+
+  exports.editProjectUrl = function(params) {
+    return '/projects/' + params['project_id'] + "/edit";
   };
 
   exports.projectsUrl = function(params) {

@@ -92,9 +92,12 @@ modProject.directive("projectGroup", function() {
   return {
     restrict: "E",
     templateUrl: "projects/project_group.html",
-    controller: function ProjectGroupController($scope, localStorageService, $timeout) {
+    controller: function ProjectGroupController($scope, localStorageService, $timeout, SenseMenuService) {
       $scope.visible    = false;
       $timeout(function () { $scope.visible = localStorageService.get($scope.groupTitleTranslationKey) == "true"; });
+
+
+
       this.haveProjects = function() { return $scope.projects != null && $scope.projects.length == 0; };
       this.toggle       = function() {
         $scope.visible = !$scope.visible;
@@ -118,11 +121,14 @@ modProject.directive("projectGroup", function() {
   }
 });
 
-modProject.controller("ProjectController", function ProjectController ($scope, $rootScope, ProjectResource, Browser, $routeParams, SenseService, $location, FlashFactory, Breadcrumb, Routes) {
+modProject.controller("ProjectController", function ProjectController ($scope, $rootScope, ProjectResource, Browser, $routeParams, SenseService, $location, FlashFactory, Breadcrumb, Routes, SenseMenuService) {
   $scope.project = null;
 
   var project_id = $routeParams['id'];
   SenseService.putContext("project_id", project_id);
+
+  SenseMenuService.add("sense.project_settings.label", "fa-gear", Routes.editProjectUrl({ project_id: project_id }));
+  
   ProjectResource.find(project_id).then(function(project) {
     $scope.project = project;
     Browser.setTitle(project.title);

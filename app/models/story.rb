@@ -11,8 +11,8 @@ class Story < ActiveRecord::Base
   belongs_to :requested_by, class_name: 'User'
   validates :requested_by_id, belongs_to_project: true
 
-  scope :done, -> { where(:state => :accepted) }
-  scope :in_progress, -> { where(:state => [:started, :finished, :delivered]) }
-  scope :backlog, -> { where(:state => :unstarted) }
-  scope :chilly_bin, -> { where(:state => :unscheduled) }
+  scope :done,        -> { where(state: :accepted) }
+  scope :in_progress, -> { where(state: [:started, :finished, :delivered]) }
+  scope :backlog,     -> { where(state: :unstarted) }
+  scope :icebox,      -> { where(state: :unscheduled) }
 end
