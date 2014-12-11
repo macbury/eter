@@ -27,6 +27,26 @@ modProject.factory("ProjectResource", function($http, $q, FlashFactory) {
     return deferred.promise;
   };
 
+  exports.update = function(project) {
+    var deferred = $q.defer();
+    $http.put("/api/projects/"+project.id, { project: project }).success(function(data, status, headers, config) {
+      deferred.resolve(data);
+    }).error(function(data, status, headers, config) {
+      if (data != null && data.errors != null) {
+        var errors = {};
+        if (data != null && data.errors != null) {
+          errors = data.errors;
+        }
+        deferred.reject(errors);
+      } else {
+        FlashFactory.handleHttpStatusError(status);
+        deferred.reject([]);
+      }
+    });
+
+    return deferred.promise;
+  };
+
   exports.create = function(project) {
     var deferred = $q.defer();
     $http.post("/api/projects", { project: project }).success(function(data, status, headers, config) {
@@ -107,8 +127,6 @@ modProject.directive("projectGroup", function() {
       $scope.visible    = false;
       $timeout(function () { $scope.visible = localStorageService.get($scope.groupTitleTranslationKey) == "true"; });
 
-
-
       this.haveProjects = function() { return $scope.projects != null && $scope.projects.length == 0; };
       this.toggle       = function() {
         $scope.visible = !$scope.visible;
@@ -152,30 +170,59 @@ modProject.controller("ProjectController", function ProjectController ($scope, $
   });
 });
 
-modProject.controller("EditProjectController", function EditProjectController ($scope, ProjectResource, Browser, $routeParams, SenseService, $location, FlashFactory, Breadcrumb, Routes, SenseMenuService, CanCan) {
-  $scope.project = null;
+modProject.directive("projectSettings", function() {
+  function EditProjectController ($scope, ProjectResource, Browser, $routeParams, SenseService, $location, FlashFactory, Breadcrumb, Routes, SenseMenuService, CanCan, FormError) {
+    $scope.project = null;
+    $scope.loading = true;
 
-  var project_id = $routeParams['id'];
-  SenseService.putContext("project_id", project_id);
+    var project_id = $routeParams['id'];
+    SenseService.putContext("project_id", project_id);
 
+    var updateTitle = function() {
+      Browser.setTitle($scope.project.title);
+      Breadcrumb.reset();
+      Breadcrumb.addItem($scope.project.title, Routes.projectUrl({ project_id: $scope.project.id }));
+      Breadcrumb.addTranslateItem("breadcrumb.actions.edit", Routes.editProjectUrl({ project_id: $scope.project.id }));
+    }
 
+    ProjectResource.edit(project_id).then(function(response) {
+      var project               = response.project;
+      project.start_date        = new Date(project.start_date);
+      $scope.project            = project;
+      $scope.pointScales        = response.point_scales;
+      $scope.iterationLength    = response.iteration_length;
+      $scope.iterationStartDay  = response.iteration_start_day;
+      $scope.cancelUrl          = Routes.projectUrl({ project_id: project.id });
+      updateTitle();
+      $scope.loading = false;
+    }, function (status) {
+      $location.path("/projects");
+      FlashFactory.handleHttpStatusError(status);
+    });
 
-  ProjectResource.edit(project_id).then(function(response) {
-    var project               = response.project;
-    project.start_date        = new Date(project.start_date);
-    $scope.project            = project;
-    $scope.pointScales        = response.point_scales;
-    $scope.iterationLength    = response.iteration_length;
-    $scope.iterationStartDay  = response.iteration_start_day;
-    $scope.cancelUrl          =  Routes.projectUrl({ project_id: project.id });
-    Browser.setTitle(project.title);
-    Breadcrumb.addItem(project.title, Routes.projectUrl({ project_id: project.id }));
-    Breadcrumb.addTranslateItem("breadcrumb.actions.edit", Routes.editProjectUrl({ project_id: project.id }));
-  }, function (status) {
-    $location.path("/projects");
-    FlashFactory.handleHttpStatusError(status);
-  });
+    this.save = function() {
+      $scope.loading = true;
+      var projectForm = $scope.projectForm;
+      ProjectResource.update($scope.project).then(function() {
+        FlashFactory.showLocalized("success", "flashes.updated_successfull");
+        updateTitle();
+        FormError.reset($scope.project, projectForm);
+        $scope.loading = false;
+      }, function(errors) {
+        FormError.applyToForm(errors, projectForm);
+        $scope.loading = false;
+      });
+    };
+  }
+
+  return {
+    restrict: "E",
+    scope: true,
+    controller: EditProjectController,
+    controllerAs: "editProjectCtrl"
+  }
 });
+
 
 modProject.directive("createProjectAction", function($timeout, ProjectResource, $location, Routes, FormError, FlashFactory) {
 
@@ -203,6 +250,7 @@ modProject.directive("createProjectAction", function($timeout, ProjectResource, 
         $location.url(Routes.projectUrl({project_id: data.id}));
         $scope.$root.$broadcast("closeSenseMenu");
       }, function ProjectCreationError(errors) {
+        console.log($scope.projectForm);
         FormError.applyToForm(errors, $scope.projectForm);
         $scope.loading = false;
       });
@@ -255,6 +303,25 @@ modProject.directive("projectPointScaleSelect", function() {
       '<select name="point_scale" id="project_point_scale" class="form-control" ng-model="project.point_scale" ng-options="pointScaleCtrl.getOptionKey(scale) | translate for scale in pointScales">',
       '</select>',
     '</float-label>'
+    ].join("\n")
+  }
+});
+
+modProject.directive("projectIterationLengthSelect", function() {
+  return {
+    restrict: "E",
+    replace: false,
+    controller: function($scope) {
+      this.getOptionKey = function(length_option) {
+        return "simple_form.options.project.iteration_length."+length_option;
+      }
+    },
+    controllerAs: "lengthCtrl",
+    template: [
+      '<float-label errors="projectForm.iteration_length.serverErrors" placeholder="simple_form.labels.project.iteration_length" for="project_iteration_length" model="project.iteration_length">',
+        '<select name="iteration_length" id="project_iteration_length" class="form-control" ng-model="project.iteration_length" ng-options="lengthCtrl.getOptionKey(lengthOption) | translate for lengthOption in iterationLength">',
+        '</select>',
+      '</float-label>'
     ].join("\n")
   }
 });

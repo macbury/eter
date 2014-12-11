@@ -10,8 +10,28 @@ RSpec.describe Api::ProjectsController, type: :controller do
       expect(response).not_to be_success
     end
 
+    it "GET new should not be success" do
+      get :new
+      expect(response).not_to be_success
+    end
+
+    it "GET edit should not be success" do
+      get :edit, id: -1
+      expect(response).not_to be_success
+    end
+
     it "POST create should not be success" do
       post :create
+      expect(response).not_to be_success
+    end
+
+    it "PUT update should not be success" do
+      put :update, id: -1
+      expect(response).not_to be_success
+    end
+
+    it "delete destroy should not be success" do
+      delete :destroy, id: -1
       expect(response).not_to be_success
     end
   end
@@ -29,7 +49,7 @@ RSpec.describe Api::ProjectsController, type: :controller do
 
   end
 
-  context "as user" do
+  context "as user with master permission on projects" do
     as_user(:user_with_projects)
 
     describe "GET index" do
@@ -42,6 +62,25 @@ RSpec.describe Api::ProjectsController, type: :controller do
       end
     end
 
+    it "should GET new attributtes for project" do
+      get :new, format: :json
+      expect(response).to be_success
+      expect(response_json).to have_key("project")
+      expect(response_json).to include("point_scales" => Project::POINT_SCALES.keys)
+      expect(response_json).to include("iteration_length" => Project::ITERATION_LENGTH_RANGE.to_a)
+      expect(response_json).to have_key("iteration_start_day")
+    end
+
+    it "should GET new attributtes for project" do
+      project = controller.current_user.projects.first
+      get :edit, id: project.id, format: :json
+      expect(response).to be_success
+      expect(response_json).to have_key("project")
+      expect(response_json).to include("point_scales" => Project::POINT_SCALES.keys)
+      expect(response_json).to include("iteration_length" => Project::ITERATION_LENGTH_RANGE.to_a)
+      expect(response_json).to have_key("iteration_start_day")
+    end
+
     describe "POST create" do
       it "should create project with valid params" do
         project_attributtes = attributes_for(:project_with_emails_to_invite)
@@ -52,7 +91,13 @@ RSpec.describe Api::ProjectsController, type: :controller do
         expect(ActionMailer::Base.deliveries).not_to be_empty
       end
     end
+  end
 
+  context "as user with developer access to other projects" do
+    let(:master) { FactoryGirl.create(:user_with_projects) }
+    let(:master_project) { master.projects.first }
+    as_user(:user)
+    pending "add other tests"
   end
 
 end

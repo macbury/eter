@@ -55,6 +55,7 @@ en:
     internal_server_error: "Internal server error occured while performing request!"
     unauthorized_access: "Cannot access this resource."
     not_found: "Could not find resource."
+    updated_successfull: "Changes have been saved"
   simple_form:
     buttons:
       save: "Save"
@@ -65,6 +66,12 @@ en:
           fibonacci: "Fibonacci (0,1,2,3,5,8)"
           powers_of_two: "Power of two (0,1,2,4,8)"
           linear: "Linear (0,1,2,3,4,5)"
+        iteration_length:
+          - null
+          - 1 week
+          - 2 weeks
+          - 3 weeks
+          - 4 weeks
     labels:
       project:
         members: "Members"
@@ -73,6 +80,7 @@ en:
         default_velocity: "Default velocity"
         iteration_start_day: "Iteration start day"
         start_date: "Start date"
+        iteration_length: "Iteration length"
     hints:
       project:
         members: "Search for users in system, or type email to invite them"

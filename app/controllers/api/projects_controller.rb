@@ -18,7 +18,7 @@ class Api::ProjectsController < ApiController
   end
 
   def create
-    @project = Project.new(project_params)
+    @project = Project.new(create_project_params)
     authorize! :create, @project
     if @project.save
       current_user.assign_master!(@project)
@@ -33,7 +33,7 @@ class Api::ProjectsController < ApiController
 
   def update
     authorize! :update, @project
-    @project.update(project_params)
+    @project.update(update_project_params)
     respond_with(:api, @project)
   end
 
@@ -49,7 +49,11 @@ class Api::ProjectsController < ApiController
       authorize! :read, @project
     end
 
-    def project_params
+    def create_project_params
       params.require(:project).permit(:title, :members_emails, :point_scale, :start_date, :iteration_start_day, :default_velocity, :iteration_length)
+    end
+
+    def update_project_params
+      params.require(:project).permit(:title, :point_scale, :start_date, :iteration_start_day, :default_velocity, :iteration_length)
     end
 end

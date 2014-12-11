@@ -1,9 +1,14 @@
 $card_form_label_color: #aaaaaa;
 .card-form {
   color: rgb(70, 69, 69);
+
+  .help-block-error {
+    color: $brand-danger;
+  }
+
   &.box {
     background: #fff;
-    box-shadow: rgba(0,0,0,0.3) 0px 0px 10px;
+    box-shadow: $background-shadow;
     margin: 15px 0px;
     .inputs {
       padding: 30px 20px;

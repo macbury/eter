@@ -88,11 +88,41 @@ feature "Projects", js: true do
     end
 
     it "should allow project editing with valid data" do
-      pending "implement"
+      visit_hash "#/projects/#{master_project.id}/edit"
+
+      fill_in("Title", with: "New title")
+      fill_in("Start date", with: "1990-05-11")
+      fill_in("Default velocity", with: 11)
+      select("Power of two (0,1,2,4,8)")
+      select("Sunday")
+      select("2 weeks")
+
+      find("button.btn-success").trigger('click')
+
+      expect(page).to have_text("Changes have been saved")
+
+      master_project.reload
+      expect(master_project.default_velocity).to eq(11)
+      expect(master_project.title).to eq("New title")
+      expect(master_project.point_scale).to eq("powers_of_two")
+      expect(master_project.iteration_start_day).to eq(0)
+      expect(master_project.iteration_length).to eq(2)
     end
 
     it "should allow project editing with invalid data" do
-      pending "implement"
+      visit_hash "#/projects/#{master_project.id}/edit"
+      fill_in("Title", with: "")
+      fill_in("Start date", with: "")
+      fill_in("Default velocity", with: "")
+
+      find("button.btn-success").trigger('click')
+      expect(page).to have_text("can't be blank")
+
+      fill_in("Title", with: "New title")
+      fill_in("Start date", with: "1990-05-11")
+      fill_in("Default velocity", with: 11)
+      find("button.btn-success").trigger('click')
+      expect(page).not_to have_text("can't be blank")
     end
   end
 end

@@ -4,4 +4,8 @@ module ResponseMacros
     expect(response).to redirect_to(new_user_session_path)
   end
 
+  def response_json
+    JSON.parse(response.body)
+  end
+
 end
