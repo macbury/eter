@@ -22,6 +22,12 @@ en:
       label: "Create a new project: "
     goto_project_action:
       label: "Go to project: "
+    edit_project_action:
+      label: "Edit project: "
+      query:
+        - Edit
+        - Settings
+        - Change
   projects:
     header: "My projects"
     empty: "You are not assigned to any project."

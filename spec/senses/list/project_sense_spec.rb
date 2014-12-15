@@ -29,6 +29,7 @@ describe ProjectSense do
 
     context = sense_context(project_name, :admin)
     sense   = ProjectSense.new(context)
+    
     expect(sense).to have_action_with_redirect_to(ProjectSense::GOTO_PROJECT_ACTION, path: :project, params: { project_id: @projects.first.id })
   end
 

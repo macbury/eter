@@ -21,7 +21,7 @@ class SenseAction
   end
 
   def redirect_to(path, params)
-    put_extra(:path, path)
+    put_extra(:path, path.to_s.camelize(:lower))
     put_extra(:path_params, params)
   end
 

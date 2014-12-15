@@ -456,7 +456,6 @@
   position: absolute;
   width: 60px;
   height: 120px;
-  background: rgb(27, 27, 27);
   -webkit-transform: rotate(45deg);
   transform: rotate(45deg);
 }
@@ -492,7 +491,6 @@
 .sweet-alert .icon.success .fix {
   width: 5px;
   height: 90px;
-  background-color:  rgb(27, 27, 27);
   position: absolute;
   left: 28px;
   top: 8px;

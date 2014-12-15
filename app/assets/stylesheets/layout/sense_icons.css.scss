@@ -14,4 +14,8 @@
   &.goto_dashboard_action:before {
     content: $fa-var-home;
   }
+
+  &.edit_project_action:before {
+    content: $fa-var-cog;
+  }
 }

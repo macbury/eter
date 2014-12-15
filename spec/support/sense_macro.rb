@@ -26,7 +26,7 @@ module SenseMacro
   RSpec::Matchers.define :have_action_with_redirect_to do | action_name, params |
     match do |base_sense|
       base_sense.actions.any? do |sense_action|
-        sense_action.action == action_name && sense_action.have_redirect? && sense_action.get_extra(:path) == params[:path] && sense_action.get_extra(:path_params) == params[:params]
+        sense_action.action == action_name && sense_action.have_redirect? && sense_action.get_extra(:path).to_s == params[:path].to_s && sense_action.get_extra(:path_params) == params[:params]
       end
     end
     failure_message do |sense_action|

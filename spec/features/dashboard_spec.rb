@@ -10,7 +10,7 @@ feature "Dashboard", js: true do
       projects = Project.by_user(current_user)
 
       expect(page).not_to have_text(I18n.t("projects.empty"))
-      click_on("Active projects")
+      #click_on("Active projects")
 
       projects.each do |project|
         expect(page).to have_text(project.title.upcase)

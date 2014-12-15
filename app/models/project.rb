@@ -57,7 +57,7 @@ class Project < ActiveRecord::Base
   end
 
   def generate_colors!
-    background_generator = ColorGenerator.new saturation: 0.2, value: 0.2, seed: self.title.sum
+    background_generator = ColorGenerator.new saturation: 0.24, value: 0.4, seed: self.title.sum
     self.color_hex = background_generator.create_hex
   end
 

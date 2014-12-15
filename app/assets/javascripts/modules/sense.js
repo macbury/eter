@@ -47,15 +47,17 @@ senseMod.factory("SenseService", function($http, $q, $timeout, $rootScope) {
     sense_params["query"] = query;
     $http.post("/api/sense", { sense: sense_params }).success(function(data, status) {
       resetQueryRequest();
-
-      if (status == 200) {
-        sensePromise.resolve(data);
-      } else if (status == 403 || status == 401 || status == 422) {
-        sensePromise.reject("unauthorized");
-      } else {
-        sensePromise.reject("error");
-        throw "Unsupported status for sense: #{code}"
+      if (sensePromise != null) {
+        if (status == 200) {
+          sensePromise.resolve(data);
+        } else if (status == 403 || status == 401 || status == 422) {
+          sensePromise.reject("unauthorized");
+        } else {
+          sensePromise.reject("error");
+          throw "Unsupported status for sense: #{code}"
+        }
       }
+
       sensePromise = null;
     }).error(function(data, status, headers, config) {
       resetQueryRequest();
@@ -116,7 +118,7 @@ senseMod.factory("SenseService", function($http, $q, $timeout, $rootScope) {
   return exports;
 });
 
-senseMod.directive("senseView", function SenseViewDirective($http, $location, SenseService, FlashFactory, Routes, $timeout, $rootScope, SenseMenuService) {
+senseMod.directive("senseView", function SenseViewDirective($http, $location, SenseService, FlashFactory, Routes, $timeout, $rootScope, SenseMenuService, $window) {
   function SenseViewController($scope) {
     $scope.suggestionIndex = 0;
     $scope.showResults = false;
@@ -124,6 +126,13 @@ senseMod.directive("senseView", function SenseViewDirective($http, $location, Se
     $scope.searchText  = "";
     $scope.suggestions = [];
     $scope.currentSense = null;
+    var ctrl            = this;
+    angular.element($window).on('keydown', function(e) {
+      if (e.keyCode == 192) { // keycode for ~
+        e.preventDefault();
+        ctrl.focus();
+      }
+    });
 
     $rootScope.$on("closeSenseMenu", angular.bind(this, function() {
       this.clearAndFocus();

@@ -3,9 +3,9 @@
 // --------------------------------------------------
 
 $main_container_margin: 50px;
-$transparent-background-color: rgba(0,0,0, 0.1);
+$transparent-background-color: rgba(0,0,0, 0.3);
 $info-color: #303030;
-$background-shadow:  rgba(0,0,0,0.3) 0px 0px 10px;
+$background-shadow:  rgba(0,0,0,0.3) 0px 0px 0px;
 
 //== Colors
 //
@@ -30,7 +30,7 @@ $brand-danger:          #E74C3C;
 //## Settings for some of the most global styles.
 
 //** Background color for `<body>`.
-$body-bg:               $gray-darker;
+$body-bg:               #2B3E50;
 //** Global text color on `<body>`.
 $text-color:            #fff;
 
